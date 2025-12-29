@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:inacle_app/common/fade_animation.dart';
-import 'package:inacle_app/common/hex_color.dart';
 import 'package:inacle_app/constants/app_constants.dart';
 import 'package:inacle_app/constants/images.dart';
 import 'package:inacle_app/controllers/otp_controller.dart';
 import 'package:inacle_app/repositories/auth_repository.dart';
+import 'package:inacle_app/theme.dart';
+import 'package:inacle_app/widgets/app_button.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
 class OTPScreen extends GetView<OTPController> {
@@ -19,268 +20,192 @@ class OTPScreen extends GetView<OTPController> {
     return Scaffold(
       body: GetBuilder<OTPController>(builder: (otpController) {
         return Container(
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-              stops: const [0.1, 0.4, 0.7, 0.9],
-              colors: [
-                HexColor("#ffe2d0").withOpacity(0.8),
-                HexColor("#ffe2d0"),
-                HexColor("#a98d7c"),
-                HexColor("#a98d7c"),
-              ],
-            ),
-            image: DecorationImage(
-                fit: BoxFit.cover,
-                colorFilter: ColorFilter.mode(
-                    HexColor("#fff").withOpacity(0.2), BlendMode.dstATop),
-                image: const AssetImage(Images.bg)),
+          decoration: const BoxDecoration(
+            gradient: AppTheme.backgroundGradient,
           ),
-          child: Center(
-            child: SingleChildScrollView(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Card(
-                    elevation: 5,
-                    color: Colors.white38,
-                    child: Container(
-                      width: 500,
-                      padding: const EdgeInsets.all(30.0),
+          child: SafeArea(
+            child: Center(
+              child: SingleChildScrollView(
+                padding: const EdgeInsets.symmetric(horizontal: 24),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    // Logo
+                    FadeAnimation(
+                      delay: 0.8,
+                      child: Image.asset(
+                        Images.logo,
+                        width: 180.w,
+                        height: 90.h,
+                      ),
+                    ),
+                    const SizedBox(height: 32),
+
+                    // OTP Card
+                    Container(
+                      width: double.infinity,
+                      constraints: const BoxConstraints(maxWidth: 400),
+                      padding: const EdgeInsets.all(28),
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(8),
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(AppTheme.radiusLarge),
+                        boxShadow: AppTheme.elevatedShadow,
                       ),
                       child: Column(
-                        mainAxisSize: MainAxisSize.min,
                         children: [
-                          FadeAnimation(
-                              delay: 0.8,
-                              child: Image.asset(
-                                Images.logo,
-                                width: 200.w,
-                                height: 100.h,
-                              )),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          FadeAnimation(
-                            delay: 1,
-                            child: Text(
-                              "", //Let us help you
-                              style: TextStyle(
-                                  color: Colors.white.withOpacity(0.9),
-                                  letterSpacing: 0.5),
+                          Container(
+                            padding: const EdgeInsets.all(16),
+                            decoration: BoxDecoration(
+                              color: AppTheme.primaryColor.withOpacity(0.1),
+                              shape: BoxShape.circle,
+                            ),
+                            child: const Icon(
+                              Icons.lock_outline_rounded,
+                              color: AppTheme.primaryColor,
+                              size: 32,
                             ),
                           ),
-                          const SizedBox(
-                            height: 20,
-                          ),
-                          const Padding(
-                            padding: EdgeInsets.symmetric(vertical: 8.0),
-                            child: Text(
-                              'Phone Number Verification',
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold, fontSize: 22),
-                              textAlign: TextAlign.center,
+                          const SizedBox(height: 20),
+                          const Text(
+                            'Verification Code',
+                            style: TextStyle(
+                              fontSize: 22,
+                              fontWeight: FontWeight.w700,
+                              color: AppTheme.textPrimary,
                             ),
                           ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 30.0, vertical: 8),
-                            child: RichText(
-                              text: TextSpan(
-                                  text: "Enter the code sent to ",
-                                  children: [
-                                    TextSpan(
-                                        text: "${AppConstants.user.emailID}",
-                                        style: const TextStyle(
-                                            color: Colors.black,
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 15)),
-                                  ],
-                                  style: const TextStyle(
-                                      color: Colors.black54, fontSize: 15)),
-                              textAlign: TextAlign.center,
+                          const SizedBox(height: 12),
+                          Text(
+                            'Enter the code sent to',
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: AppTheme.textSecondary,
                             ),
                           ),
-                          const SizedBox(
-                            height: 20,
+                          const SizedBox(height: 4),
+                          Text(
+                            '${AppConstants.user.emailID}',
+                            style: const TextStyle(
+                              fontSize: 15,
+                              fontWeight: FontWeight.w600,
+                              color: AppTheme.textPrimary,
+                            ),
                           ),
+                          const SizedBox(height: 28),
+
+                          // OTP Input
                           Form(
                             key: otpController.formKey,
                             child: PinCodeTextField(
                               appContext: context,
-                              pastedTextStyle: TextStyle(
-                                color: Theme.of(context).primaryColor,
-                                fontWeight: FontWeight.bold,
-                              ),
                               length: 4,
                               autoFocus: true,
                               obscureText: true,
-                              obscuringCharacter: '*',
-                              // obscuringWidget:  Icon(
-                              //   Icons.,
-                              //   color: Colors.blue[50],
-                              //   size: 24,
-                              // ),
+                              obscuringCharacter: '●',
                               blinkWhenObscuring: true,
-                              animationType: AnimationType.fade,
-                              validator: (v) {
-                                return null;
-
-                                // if (v!.length < 3) {
-                                //   return "Validate me";
-                                // } else {
-                                //   return null;
-                                // }
-                              },
+                              animationType: AnimationType.scale,
                               pinTheme: PinTheme(
-                                  shape: PinCodeFieldShape.box,
-                                  borderRadius: BorderRadius.circular(5),
-                                  fieldHeight: 50,
-                                  fieldWidth: 40,
-                                  selectedFillColor: Colors.blue[50],
-                                  activeFillColor: Colors.white,
-                                  inactiveFillColor: Colors.white),
-                              cursorColor: Colors.black,
-                              animationDuration:
-                                  const Duration(milliseconds: 300),
+                                shape: PinCodeFieldShape.box,
+                                borderRadius: BorderRadius.circular(AppTheme.radiusSmall),
+                                fieldHeight: 56,
+                                fieldWidth: 56,
+                                selectedFillColor: AppTheme.primaryColor.withOpacity(0.05),
+                                activeFillColor: Colors.white,
+                                inactiveFillColor: AppTheme.surfaceColor,
+                                selectedColor: AppTheme.primaryColor,
+                                activeColor: AppTheme.primaryColor,
+                                inactiveColor: AppTheme.dividerColor,
+                              ),
+                              cursorColor: AppTheme.primaryColor,
+                              animationDuration: const Duration(milliseconds: 250),
                               enableActiveFill: true,
-                              errorAnimationController:
-                                  otpController.errorController,
+                              errorAnimationController: otpController.errorController,
                               controller: otpController.textEditingController,
                               keyboardType: TextInputType.number,
-                              boxShadows: const [
-                                BoxShadow(
-                                  offset: Offset(0, 1),
-                                  color: Colors.black12,
-                                  blurRadius: 10,
-                                )
-                              ],
+                              textStyle: const TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.w600,
+                                color: AppTheme.textPrimary,
+                              ),
                               onCompleted: (v) {
                                 debugPrint("Completed");
                               },
-                              // onTap: () {
-                              //   print("Pressed");
-                              // },
                               onChanged: (value) {
-                                // debugPrint(value);
-                                // setState(() {
-                                //   currentText = value;
-                                // });
                                 otpController.onChanged(value);
                               },
-                              beforeTextPaste: (text) {
-                                debugPrint("Allowing to paste $text");
-                                //if you return true then it will show the paste confirmation dialog. Otherwise if false, then nothing will happen.
-                                //but you can show anything you want here, like your pop up saying wrong paste format or etc
-                                return true;
-                              },
+                              beforeTextPaste: (text) => true,
                             ),
                           ),
-                          Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 30.0),
-                            child: Text(
-                              otpController.hasError
-                                  ? "*Please fill up all the cells properly"
-                                  : "",
-                              style: const TextStyle(
-                                  color: Colors.red,
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w400),
+
+                          if (otpController.hasError)
+                            Padding(
+                              padding: const EdgeInsets.only(bottom: 16),
+                              child: Text(
+                                'Please enter a valid code',
+                                style: TextStyle(
+                                  color: AppTheme.errorColor,
+                                  fontSize: 13,
+                                ),
+                              ),
                             ),
-                          ),
-                          const SizedBox(
-                            height: 20,
-                          ),
+
+                          const SizedBox(height: 8),
+
+                          // Resend Code
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              const Text(
+                              Text(
                                 "Didn't receive the code? ",
                                 style: TextStyle(
-                                    color: Colors.black54, fontSize: 15),
+                                  color: AppTheme.textSecondary,
+                                  fontSize: 14,
+                                ),
                               ),
                               TextButton(
-                                onPressed: () {
-                                  if (otpController.isResendButtonEnabled) {
-                                    otpController.snackBar(
-                                        "OTP resend!!", context);
-                                    otpController.startTimer();
-                                  } else {}
-                                },
+                                onPressed: otpController.isResendButtonEnabled
+                                    ? () {
+                                        otpController.snackBar("OTP resent!", context);
+                                        otpController.startTimer();
+                                      }
+                                    : null,
+                                style: TextButton.styleFrom(
+                                  padding: EdgeInsets.zero,
+                                  minimumSize: Size.zero,
+                                  tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                                ),
                                 child: Text(
                                   otpController.isResendButtonEnabled
-                                      ? "RESEND"
-                                      : "RESEND in ${otpController.start}",
-                                  style: const TextStyle(
-                                      color: Color(0xFF91D3B3),
-                                      fontWeight: FontWeight.normal,
-                                      fontSize: 16),
+                                      ? "Resend"
+                                      : "Resend in ${otpController.start}s",
+                                  style: TextStyle(
+                                    color: otpController.isResendButtonEnabled
+                                        ? AppTheme.primaryColor
+                                        : AppTheme.textLight,
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 14,
+                                  ),
                                 ),
-                              )
+                              ),
                             ],
                           ),
-                          const SizedBox(
-                            height: 25,
+                          const SizedBox(height: 28),
+
+                          // Verify Button
+                          AppButton(
+                            text: 'Verify',
+                            width: double.infinity,
+                            isLoading: otpController.isloading,
+                            onPressed: () {
+                              otpController.otpValidation(context);
+                            },
                           ),
-                          otpController.isloading
-                              ? const Center(
-                                  child: CircularProgressIndicator(
-                                    valueColor: AlwaysStoppedAnimation<Color>(
-                                        Colors.white),
-                                  ),
-                                )
-                              : FadeAnimation(
-                                  delay: 1,
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                      gradient: const LinearGradient(
-                                        colors: [
-                                          Color(0xFF632D0C),
-                                          Color(0xFFAB4304)
-                                        ],
-                                        begin: Alignment.topCenter,
-                                        end: Alignment.bottomCenter,
-                                      ),
-                                      borderRadius: BorderRadius.circular(8.0),
-                                    ),
-                                    child: TextButton(
-                                        onPressed: () {
-                                          otpController.otpValidation(context);
-                                        },
-                                        style: TextButton.styleFrom(
-                                            //backgroundColor: const Color(0xFF2697FF),
-                                            padding: const EdgeInsets.symmetric(
-                                                vertical: 14.0, horizontal: 80),
-                                            shape: RoundedRectangleBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(
-                                                        12.0))),
-                                        child: const Text(
-                                          "Verify",
-                                          style: TextStyle(
-                                            color: Colors.white,
-                                            letterSpacing: 0.5,
-                                            fontSize: 16.0,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        )),
-                                  ),
-                                ),
                         ],
                       ),
                     ),
-                  ),
-
-                  //End of Center Card
-                  //Start of outer card
-                  const SizedBox(
-                    height: 20,
-                  ),
-                ],
+                    const SizedBox(height: 24),
+                  ],
+                ),
               ),
             ),
           ),
