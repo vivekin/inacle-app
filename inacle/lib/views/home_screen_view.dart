@@ -114,7 +114,7 @@ class HomeScreen extends GetView<HomeController> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                'Welcome back,',
+                                'Welcome',
                                 style: TextStyle(
                                   fontSize: 13,
                                   color: AppTheme.textSecondary,

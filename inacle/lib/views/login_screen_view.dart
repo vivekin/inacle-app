@@ -48,7 +48,7 @@ class LoginPage extends GetView<LoginController> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           const Text(
-                            'Welcome Back',
+                            'Welcome !',
                             style: TextStyle(
                               fontSize: 24,
                               fontWeight: FontWeight.w700,
