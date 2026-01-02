@@ -32,31 +32,18 @@ class StockSummaryScreen extends GetView<StockInfoController> {
       child: Scaffold(
         backgroundColor: const Color(0xFFF5F5F5),
         appBar: AppBar(
-            // backgroundColor: Color(0xFF1156A2),
-            flexibleSpace: Container(
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  // stops: const [0.1, 0.4, 0.7, 0.9],
-                  colors: [
-                    HexColor("#ffe2d0").withOpacity(0.8),
-                    // HexColor("#ffe2d0"),
-                    HexColor("#a98d7c").withOpacity(0.8),
-                    // HexColor("#a98d7c"),
-                  ],
-                ),
-              ),
+          elevation: 0,
+          backgroundColor: Colors.white,
+          title: Padding(
+            padding: EdgeInsets.only(top: 4.h),
+            child: Image.asset(
+              Images.logo,
+              height: 36.h,
+              width: 120.w,
             ),
-            title: Container(
-              margin: EdgeInsets.only(top: 16.h, left: 16.w),
-              child: Image.asset(
-                Images.logo,
-                height: 35.58.h,
-                width: 135.03.w,
-              ),
-            ),
-            actions: const []),
+          ),
+          actions: const [],
+        ),
         body: GetBuilder<StockInfoController>(builder: (stockInfoController) {
           return stockInfoController.consolidateLoading
               ? const Center(
@@ -839,31 +826,18 @@ class StockHoldingsScreen extends GetView<StockInfoController> {
       child: Scaffold(
         backgroundColor: const Color(0xFFF5F5F5),
         appBar: AppBar(
-            // backgroundColor: Color(0xFF1156A2),
-            flexibleSpace: Container(
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  // stops: const [0.1, 0.4, 0.7, 0.9],
-                  colors: [
-                    HexColor("#ffe2d0").withOpacity(0.8),
-                    // HexColor("#ffe2d0"),
-                    HexColor("#a98d7c").withOpacity(0.8),
-                    // HexColor("#a98d7c"),
-                  ],
-                ),
-              ),
+          elevation: 0,
+          backgroundColor: Colors.white,
+          title: Padding(
+            padding: EdgeInsets.only(top: 4.h),
+            child: Image.asset(
+              Images.logo,
+              height: 36.h,
+              width: 120.w,
             ),
-            title: Container(
-              margin: EdgeInsets.only(top: 16.h, left: 16.w),
-              child: Image.asset(
-                Images.logo,
-                height: 35.58.h,
-                width: 135.03.w,
-              ),
-            ),
-            actions: const []),
+          ),
+          actions: const [],
+        ),
         body: GetBuilder<StockInfoController>(builder: (stockInfoController) {
           return stockInfoController.consolidateLoading
               ? const Center(
