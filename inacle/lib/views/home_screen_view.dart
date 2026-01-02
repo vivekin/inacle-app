@@ -152,7 +152,7 @@ class HomeScreen extends GetView<HomeController> {
                   ),
                   const SizedBox(height: 12),
 
-                  // Dashboard Grid - PhonePe Style
+                  // Dashboard Grid
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 12),
                     child: FutureBuilder<List<GridItem>>(
@@ -203,7 +203,7 @@ class HomeScreen extends GetView<HomeController> {
                   ),
                   const SizedBox(height: 12),
 
-                  // Action Tiles - PhonePe Style
+                  // Action Tiles
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 12),
                     child: Row(
@@ -238,7 +238,7 @@ class HomeScreen extends GetView<HomeController> {
                         const SizedBox(width: 10),
                         Expanded(
                           child: _buildActionTile(
-                            'Portal',
+                            'My Portal',
                             Icons.open_in_browser_outlined,
                             const Color(0xFFFF7043),
                             () {
