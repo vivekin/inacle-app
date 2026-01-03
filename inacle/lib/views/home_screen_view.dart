@@ -659,7 +659,7 @@ class HomeScreen extends GetView<HomeController> {
         DataColumn(label: Text('Current NAV ₹', style: headerStyle)),
         DataColumn(label: Text('Avg Value ₹', style: headerStyle)),
         DataColumn(label: Text('Market Value ₹', style: headerStyle)),
-        DataColumn(label: Text('Gain/Loss', style: headerStyle)),
+        DataColumn(label: Text('Gain/Loss ₹', style: headerStyle)),
         DataColumn(label: Text('Abs. Ret (%)', style: headerStyle)),
         DataColumn(label: Text('No. of Days', style: headerStyle)),
         DataColumn(label: Text('XIRR (%)', style: headerStyle)),

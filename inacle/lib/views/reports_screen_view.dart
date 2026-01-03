@@ -566,13 +566,13 @@ class StockSummaryScreen extends GetView<StockInfoController> {
                                                               Colors.white))),
                                               DataColumn(
                                                   label: Text(
-                                                      'Transaction Desc',
+                                                      'Transaction Desc.',
                                                       style: TextStyle(
                                                           fontFamily: 'Roboto',
                                                           color:
                                                               Colors.white))),
                                               DataColumn(
-                                                  label: Text('Trns Type',
+                                                  label: Text('Trn. Type',
                                                       style: TextStyle(
                                                           fontFamily: 'Roboto',
                                                           color:
