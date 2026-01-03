@@ -30,7 +30,7 @@ class StockInfoController extends GetxController {
     log('come inside report screen');
     String? report = Get.arguments as String?;
     if (report != null) {
-      if (report == "summary") {
+      if (report == "soa") {
         fetchConsolidateList();
       } else if (report == "holdings") {
         fetchHoldingsList();
