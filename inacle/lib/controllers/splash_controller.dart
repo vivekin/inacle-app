@@ -8,7 +8,7 @@ import 'package:inacle_app/routes.dart';
 
 class SplashController extends GetxController {
 
-  final String _version = '1.0.0';
+  final String _version = '1.1.0';
 
   String get version => _version;
 
