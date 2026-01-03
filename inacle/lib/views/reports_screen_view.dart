@@ -658,7 +658,7 @@ class StockSummaryScreen extends GetView<StockInfoController> {
                                       color: Colors.blue.shade100,
                                       padding: const EdgeInsets.all(8.0),
                                       child: Text(
-                                        'Market Value of Balance Units at NAV of ${lastRow['curr_nav']} on ${DateFormat('dd-MM-yyyy').format(DateTime.parse(lastRow['curr_nav_date']))} (INR): ${lastRow['curr_val']}',
+                                        'Market Value of Balance Units at NAV of ${lastRow['curr_nav']} on ${DateFormat('dd-MM-yyyy').format(DateTime.parse(lastRow['curr_nav_date']))} : ₹${lastRow['curr_val']}',
                                         style: TextStyle(
                                           fontSize: 16,
                                           fontWeight: FontWeight.bold,
