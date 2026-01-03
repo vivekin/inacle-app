@@ -210,21 +210,21 @@ class HomeScreen extends GetView<HomeController> {
                       children: [
                         Expanded(
                           child: _buildActionTile(
-                            'Summary',
+                            'SoA Report',
                             Icons.analytics_outlined,
                             const Color(0xFF5C6BC0),
                             () {
                               if (Get.isRegistered<StockInfoController>()) {
                                 Get.delete<StockInfoController>();
                               }
-                              Get.toNamed(AppRoutes.stockInfo, arguments: 'summary');
+                              Get.toNamed(AppRoutes.stockInfo, arguments: 'soa');
                             },
                           ),
                         ),
                         const SizedBox(width: 10),
                         Expanded(
                           child: _buildActionTile(
-                            'Holdings',
+                            'Portfolio Summary',
                             Icons.account_balance_wallet_outlined,
                             const Color(0xFF26A69A),
                             () {
