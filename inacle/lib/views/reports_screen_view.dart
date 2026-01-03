@@ -750,7 +750,7 @@ class StockSummaryScreen extends GetView<StockInfoController> {
     } else if (fieldName == 'No_Of_Days') {
       header = 'No. Of Days';
     } else if (fieldName == 'Abs_Ret_PER') {
-      header = 'Abs. Ret.(%)';
+      header = 'Abs. Rtn.(%)';
     } else if (fieldName == 'WP_PER') {
       header = 'W.P(%)';
     }
@@ -1162,7 +1162,7 @@ class StockHoldingsScreen extends GetView<StockInfoController> {
     } else if (fieldName == 'No_Of_Days') {
       header = 'No. Of Days';
     } else if (fieldName == 'Abs_Ret_PER') {
-      header = 'Abs. Ret.(%)';
+      header = 'Abs. Rtn.(%)';
     } else if (fieldName == 'WP_PER') {
       header = 'W.P(%)';
     }

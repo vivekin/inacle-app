@@ -24,7 +24,7 @@ class HomeScreen extends GetView<HomeController> {
     'Total Investment': Icons.account_balance_outlined,
     'Market Value': Icons.trending_up_rounded,
     'Total Gain/Loss': Icons.bar_chart_rounded,
-    'Abs Rtn. / XIRR': Icons.percent_rounded,
+    'Abs. Rtn. / XIRR': Icons.percent_rounded,
     'No. of Folios': Icons.folder_outlined,
     'As on Date': Icons.calendar_today_outlined,
   };
@@ -33,7 +33,7 @@ class HomeScreen extends GetView<HomeController> {
     'Total Investment': Color(0xFF5C6BC0),
     'Market Value': Color(0xFF26A69A),
     'Total Gain/Loss': Color(0xFFEF5350),
-    'Abs Rtn. / XIRR': Color(0xFFFF7043),
+    'Abs. Rtn. / XIRR': Color(0xFFFF7043),
     'No. of Folios': Color(0xFF7E57C2),
     'As on Date': Color(0xFF42A5F5),
   };
@@ -299,7 +299,7 @@ class HomeScreen extends GetView<HomeController> {
                 child: Icon(iconData, color: iconColor, size: 18),
               ),
               const Spacer(),
-              if (item.header == 'Total Gain/Loss' || item.header == 'Abs Rtn. / XIRR')
+              if (item.header == 'Total Gain/Loss' || item.header == 'Abs. Rtn. / XIRR')
                 Icon(
                   _isPositiveValue(item.value) ? Icons.arrow_upward_rounded : Icons.arrow_downward_rounded,
                   color: _isPositiveValue(item.value) ? AppTheme.successColor : AppTheme.errorColor,
@@ -317,7 +317,7 @@ class HomeScreen extends GetView<HomeController> {
             ),
           ),
           const SizedBox(height: 4),
-          if (item.header == 'Abs Rtn. / XIRR')
+          if (item.header == 'Abs. Rtn. / XIRR')
             _buildAbsXirrValue(item.value)
           else
             AutoSizeText(
@@ -660,7 +660,7 @@ class HomeScreen extends GetView<HomeController> {
         DataColumn(label: Text('Avg Value ₹', style: headerStyle)),
         DataColumn(label: Text('Market Value ₹', style: headerStyle)),
         DataColumn(label: Text('Gain/Loss ₹', style: headerStyle)),
-        DataColumn(label: Text('Abs. Ret (%)', style: headerStyle)),
+        DataColumn(label: Text('Abs. Rtn (%)', style: headerStyle)),
         DataColumn(label: Text('No. of Days', style: headerStyle)),
         DataColumn(label: Text('XIRR (%)', style: headerStyle)),
         DataColumn(label: Text('W.P (%)', style: headerStyle)),

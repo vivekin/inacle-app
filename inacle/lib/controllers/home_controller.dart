@@ -167,7 +167,7 @@ class HomeController extends GetxController {
                 .first.gainLoss), //'₹${_grandTotalList.first.gainLoss}',
             color: const Color.fromARGB(255, 162, 46, 152)),
         GridItem(
-            header: 'Abs Rtn. / XIRR',
+            header: 'Abs. Rtn. / XIRR',
             value:
                 '${formatPercentage(_grandTotalList.first.absRetPer)} / ${formatPercentage(_grandTotalList.first.xirr)}',
             //'${double.parse(_grandTotalList.first.absRetPer??'0').toStringAsFixed(2)} / ${double.parse(_grandTotalList.first.xirr??'0').toStringAsFixed(2)}',
