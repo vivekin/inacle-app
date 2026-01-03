@@ -151,7 +151,7 @@ class StockSummaryScreen extends GetView<StockInfoController> {
                                               DataRow(
                                                 cells: <DataCell>[
                                                   const DataCell(
-                                                      Text('Invests')),
+                                                      Text('Invested')),
                                                   DataCell(Text(
                                                     consolidate
                                                             .investmentsSwitchIns ??
@@ -944,7 +944,7 @@ class StockHoldingsScreen extends GetView<StockInfoController> {
                                             rows: <DataRow>[
                                               DataRow(
                                                 cells: <DataCell>[
-                                                  const DataCell(Text('Invests',
+                                                  const DataCell(Text('Invested',
                                                       style: TextStyle(
                                                         fontFamily: 'Roboto',
                                                       ))),
