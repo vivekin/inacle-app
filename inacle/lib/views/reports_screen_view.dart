@@ -578,13 +578,13 @@ class StockSummaryScreen extends GetView<StockInfoController> {
                                                           color:
                                                               Colors.white))),
                                               DataColumn(
-                                                  label: Text('Amount in INR',
+                                                  label: Text('Amount ₹',
                                                       style: TextStyle(
                                                           fontFamily: 'Roboto',
                                                           color:
                                                               Colors.white))),
                                               DataColumn(
-                                                  label: Text('NAV',
+                                                  label: Text('NAV ₹',
                                                       style: TextStyle(
                                                           fontFamily: 'Roboto',
                                                           color:
@@ -738,15 +738,15 @@ class StockSummaryScreen extends GetView<StockInfoController> {
     } else if (fieldName == 'ProdCode') {
       header = 'Product Code';
     } else if (fieldName == 'ISIN') {
-      header = 'Investments Switch Ins(INR.)';
+      header = 'Investments Switch Ins';
     } else if (fieldName == 'Inv_Since') {
       header = 'Inv.Since';
     } else if (fieldName == 'Dividend_Reinvest') {
-      header = 'Dividend Reinvest';
+      header = 'Dividend Reinvested ₹';
     } else if (fieldName == 'Dividend') {
-      header = 'Dividend(INR.)';
+      header = 'Dividend ₹';
     } else if (fieldName == 'Avg_Cost') {
-      header = 'Avg. Cost(INR.)';
+      header = 'Avg. Cost ₹';
     } else if (fieldName == 'No_Of_Days') {
       header = 'No. Of Days';
     } else if (fieldName == 'Abs_Ret_PER') {
@@ -786,21 +786,21 @@ class StockSummaryScreen extends GetView<StockInfoController> {
     } else if (fieldName == 'trxn_type') {
       header = 'Trxn. Type';
     } else if (fieldName == 'amount') {
-      header = 'Amount(INR.)';
+      header = 'Amount ₹';
     } else if (fieldName == 'purprice') {
-      header = 'Pur. Price(INR.)';
+      header = 'Pur. Price ₹';
     } else if (fieldName == 'units') {
       header = 'Units';
     } else if (fieldName == 'bal_units') {
       header = 'Bal. Units';
     } else if (fieldName == 'curr_nav') {
-      header = 'Curr. NAV(INR.)';
+      header = 'Curr. NAV ₹';
     } else if (fieldName == 'curr_unit') {
       header = 'Curr. Unit';
     } else if (fieldName == 'curr_nav_date') {
       header = 'Curr. Nav. Date';
     } else if (fieldName == 'curr_val') {
-      header = 'Curr. Val(INR.)';
+      header = 'Curr. Val ₹';
     }
 
     return header;
@@ -944,7 +944,7 @@ class StockHoldingsScreen extends GetView<StockInfoController> {
                                             rows: <DataRow>[
                                               DataRow(
                                                 cells: <DataCell>[
-                                                  const DataCell(Text('Invested',
+                                                  const DataCell(Text('Invested ₹',
                                                       style: TextStyle(
                                                         fontFamily: 'Roboto',
                                                       ))),
@@ -976,7 +976,7 @@ class StockHoldingsScreen extends GetView<StockInfoController> {
                                               DataRow(
                                                 cells: <DataCell>[
                                                   const DataCell(
-                                                      Text('Market Value',
+                                                      Text('Market Value ₹',
                                                           style: TextStyle(
                                                             fontFamily:
                                                                 'Roboto',
@@ -991,7 +991,7 @@ class StockHoldingsScreen extends GetView<StockInfoController> {
                                               ),
                                               DataRow(
                                                 cells: <DataCell>[
-                                                  const DataCell(Text('Nav',
+                                                  const DataCell(Text('Nav ₹',
                                                       style: TextStyle(
                                                         fontFamily: 'Roboto',
                                                       ))),
@@ -1150,15 +1150,15 @@ class StockHoldingsScreen extends GetView<StockInfoController> {
     } else if (fieldName == 'ProdCode') {
       header = 'Product Code';
     } else if (fieldName == 'ISIN') {
-      header = 'Investments Switch Ins(INR.)';
+      header = 'Investments Switch Ins';
     } else if (fieldName == 'Inv_Since') {
       header = 'Inv.Since';
     } else if (fieldName == 'Dividend_Reinvest') {
-      header = 'Dividend Reinvest';
+      header = 'Dividend Reinvested ₹';
     } else if (fieldName == 'Dividend') {
-      header = 'Dividend(INR.)';
+      header = 'Dividend ₹';
     } else if (fieldName == 'Avg_Cost') {
-      header = 'Avg. Cost(INR.)';
+      header = 'Avg. Cost ₹';
     } else if (fieldName == 'No_Of_Days') {
       header = 'No. Of Days';
     } else if (fieldName == 'Abs_Ret_PER') {
@@ -1198,21 +1198,21 @@ class StockHoldingsScreen extends GetView<StockInfoController> {
     } else if (fieldName == 'trxn_type') {
       header = 'Trxn. Type';
     } else if (fieldName == 'amount') {
-      header = 'Amount(INR.)';
+      header = 'Amount ₹';
     } else if (fieldName == 'purprice') {
-      header = 'Pur. Price(INR.)';
+      header = 'Pur. Price ₹';
     } else if (fieldName == 'units') {
       header = 'Units';
     } else if (fieldName == 'bal_units') {
       header = 'Bal. Units';
     } else if (fieldName == 'curr_nav') {
-      header = 'Curr. NAV(INR.)';
+      header = 'Curr. NAV ₹';
     } else if (fieldName == 'curr_unit') {
       header = 'Curr. Unit';
     } else if (fieldName == 'curr_nav_date') {
       header = 'Curr. Nav. Date';
     } else if (fieldName == 'curr_val') {
-      header = 'Curr. Val(INR.)';
+      header = 'Curr. Val ₹';
     }
 
     return header;
