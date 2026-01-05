@@ -32,31 +32,18 @@ class StockSummaryScreen extends GetView<StockInfoController> {
       child: Scaffold(
         backgroundColor: const Color(0xFFF5F5F5),
         appBar: AppBar(
-            // backgroundColor: Color(0xFF1156A2),
-            flexibleSpace: Container(
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  // stops: const [0.1, 0.4, 0.7, 0.9],
-                  colors: [
-                    HexColor("#ffe2d0").withOpacity(0.8),
-                    // HexColor("#ffe2d0"),
-                    HexColor("#a98d7c").withOpacity(0.8),
-                    // HexColor("#a98d7c"),
-                  ],
-                ),
-              ),
+          elevation: 0,
+          backgroundColor: Colors.white,
+          title: Padding(
+            padding: EdgeInsets.only(top: 4.h),
+            child: Image.asset(
+              Images.logo,
+              height: 36.h,
+              width: 120.w,
             ),
-            title: Container(
-              margin: EdgeInsets.only(top: 16.h, left: 16.w),
-              child: Image.asset(
-                Images.logo,
-                height: 35.58.h,
-                width: 135.03.w,
-              ),
-            ),
-            actions: const []),
+          ),
+          actions: const [],
+        ),
         body: GetBuilder<StockInfoController>(builder: (stockInfoController) {
           return stockInfoController.consolidateLoading
               ? const Center(
@@ -164,7 +151,7 @@ class StockSummaryScreen extends GetView<StockInfoController> {
                                               DataRow(
                                                 cells: <DataCell>[
                                                   const DataCell(
-                                                      Text('Invests')),
+                                                      Text('Invested ₹')),
                                                   DataCell(Text(
                                                     consolidate
                                                             .investmentsSwitchIns ??
@@ -177,7 +164,7 @@ class StockSummaryScreen extends GetView<StockInfoController> {
                                               DataRow(
                                                 cells: <DataCell>[
                                                   const DataCell(
-                                                      Text('No of Units')),
+                                                      Text('No. of Units')),
                                                   DataCell(Text(
                                                     consolidate.noOfUnits ?? '',
                                                     style: const TextStyle(
@@ -188,7 +175,7 @@ class StockSummaryScreen extends GetView<StockInfoController> {
                                               DataRow(
                                                 cells: <DataCell>[
                                                   const DataCell(
-                                                      Text('Market Value')),
+                                                      Text('Market Value ₹')),
                                                   DataCell(Text(
                                                     consolidate.marketValue ??
                                                         '',
@@ -199,7 +186,7 @@ class StockSummaryScreen extends GetView<StockInfoController> {
                                               ),
                                               DataRow(
                                                 cells: <DataCell>[
-                                                  const DataCell(Text('Nav')),
+                                                  const DataCell(Text('NAV ₹')),
                                                   DataCell(Text(
                                                     consolidate.currentNAV ??
                                                         '',
@@ -579,25 +566,25 @@ class StockSummaryScreen extends GetView<StockInfoController> {
                                                               Colors.white))),
                                               DataColumn(
                                                   label: Text(
-                                                      'Transaction Desc',
+                                                      'Transaction Desc.',
                                                       style: TextStyle(
                                                           fontFamily: 'Roboto',
                                                           color:
                                                               Colors.white))),
                                               DataColumn(
-                                                  label: Text('Trns Type',
+                                                  label: Text('Trn. Type',
                                                       style: TextStyle(
                                                           fontFamily: 'Roboto',
                                                           color:
                                                               Colors.white))),
                                               DataColumn(
-                                                  label: Text('Amount in INR',
+                                                  label: Text('Amount ₹',
                                                       style: TextStyle(
                                                           fontFamily: 'Roboto',
                                                           color:
                                                               Colors.white))),
                                               DataColumn(
-                                                  label: Text('NAV',
+                                                  label: Text('NAV ₹',
                                                       style: TextStyle(
                                                           fontFamily: 'Roboto',
                                                           color:
@@ -671,7 +658,7 @@ class StockSummaryScreen extends GetView<StockInfoController> {
                                       color: Colors.blue.shade100,
                                       padding: const EdgeInsets.all(8.0),
                                       child: Text(
-                                        'Market Value of Balance Units at NAV of ${lastRow['curr_nav']} on ${DateFormat('dd-MM-yyyy').format(DateTime.parse(lastRow['curr_nav_date']))} (INR): ${lastRow['curr_val']}',
+                                        'Market Value of Balance Units at NAV of ${lastRow['curr_nav']} on ${DateFormat('dd-MM-yyyy').format(DateTime.parse(lastRow['curr_nav_date']))} : ₹${lastRow['curr_val']}',
                                         style: TextStyle(
                                           fontSize: 16,
                                           fontWeight: FontWeight.bold,
@@ -751,19 +738,19 @@ class StockSummaryScreen extends GetView<StockInfoController> {
     } else if (fieldName == 'ProdCode') {
       header = 'Product Code';
     } else if (fieldName == 'ISIN') {
-      header = 'Investments Switch Ins(INR.)';
+      header = 'Investments Switch Ins';
     } else if (fieldName == 'Inv_Since') {
       header = 'Inv.Since';
     } else if (fieldName == 'Dividend_Reinvest') {
-      header = 'Dividend Reinvest';
+      header = 'Dividend Reinvested ₹';
     } else if (fieldName == 'Dividend') {
-      header = 'Dividend(INR.)';
+      header = 'Dividend ₹';
     } else if (fieldName == 'Avg_Cost') {
-      header = 'Avg. Cost(INR.)';
+      header = 'Avg. Cost ₹';
     } else if (fieldName == 'No_Of_Days') {
       header = 'No. Of Days';
     } else if (fieldName == 'Abs_Ret_PER') {
-      header = 'Abs. Ret.(%)';
+      header = 'Abs. Rtn.(%)';
     } else if (fieldName == 'WP_PER') {
       header = 'W.P(%)';
     }
@@ -799,21 +786,21 @@ class StockSummaryScreen extends GetView<StockInfoController> {
     } else if (fieldName == 'trxn_type') {
       header = 'Trxn. Type';
     } else if (fieldName == 'amount') {
-      header = 'Amount(INR.)';
+      header = 'Amount ₹';
     } else if (fieldName == 'purprice') {
-      header = 'Pur. Price(INR.)';
+      header = 'Pur. Price ₹';
     } else if (fieldName == 'units') {
       header = 'Units';
     } else if (fieldName == 'bal_units') {
       header = 'Bal. Units';
     } else if (fieldName == 'curr_nav') {
-      header = 'Curr. NAV(INR.)';
+      header = 'Curr. NAV ₹';
     } else if (fieldName == 'curr_unit') {
       header = 'Curr. Unit';
     } else if (fieldName == 'curr_nav_date') {
       header = 'Curr. Nav. Date';
     } else if (fieldName == 'curr_val') {
-      header = 'Curr. Val(INR.)';
+      header = 'Curr. Val ₹';
     }
 
     return header;
@@ -839,31 +826,18 @@ class StockHoldingsScreen extends GetView<StockInfoController> {
       child: Scaffold(
         backgroundColor: const Color(0xFFF5F5F5),
         appBar: AppBar(
-            // backgroundColor: Color(0xFF1156A2),
-            flexibleSpace: Container(
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  // stops: const [0.1, 0.4, 0.7, 0.9],
-                  colors: [
-                    HexColor("#ffe2d0").withOpacity(0.8),
-                    // HexColor("#ffe2d0"),
-                    HexColor("#a98d7c").withOpacity(0.8),
-                    // HexColor("#a98d7c"),
-                  ],
-                ),
-              ),
+          elevation: 0,
+          backgroundColor: Colors.white,
+          title: Padding(
+            padding: EdgeInsets.only(top: 4.h),
+            child: Image.asset(
+              Images.logo,
+              height: 36.h,
+              width: 120.w,
             ),
-            title: Container(
-              margin: EdgeInsets.only(top: 16.h, left: 16.w),
-              child: Image.asset(
-                Images.logo,
-                height: 35.58.h,
-                width: 135.03.w,
-              ),
-            ),
-            actions: const []),
+          ),
+          actions: const [],
+        ),
         body: GetBuilder<StockInfoController>(builder: (stockInfoController) {
           return stockInfoController.consolidateLoading
               ? const Center(
@@ -970,7 +944,7 @@ class StockHoldingsScreen extends GetView<StockInfoController> {
                                             rows: <DataRow>[
                                               DataRow(
                                                 cells: <DataCell>[
-                                                  const DataCell(Text('Invests',
+                                                  const DataCell(Text('Invested ₹',
                                                       style: TextStyle(
                                                         fontFamily: 'Roboto',
                                                       ))),
@@ -986,7 +960,7 @@ class StockHoldingsScreen extends GetView<StockInfoController> {
                                               DataRow(
                                                 cells: <DataCell>[
                                                   const DataCell(
-                                                      Text('No of Units',
+                                                      Text('No. of Units',
                                                           style: TextStyle(
                                                             fontFamily:
                                                                 'Roboto',
@@ -1002,7 +976,7 @@ class StockHoldingsScreen extends GetView<StockInfoController> {
                                               DataRow(
                                                 cells: <DataCell>[
                                                   const DataCell(
-                                                      Text('Market Value',
+                                                      Text('Market Value ₹',
                                                           style: TextStyle(
                                                             fontFamily:
                                                                 'Roboto',
@@ -1017,7 +991,7 @@ class StockHoldingsScreen extends GetView<StockInfoController> {
                                               ),
                                               DataRow(
                                                 cells: <DataCell>[
-                                                  const DataCell(Text('Nav',
+                                                  const DataCell(Text('NAV ₹',
                                                       style: TextStyle(
                                                         fontFamily: 'Roboto',
                                                       ))),
@@ -1176,19 +1150,19 @@ class StockHoldingsScreen extends GetView<StockInfoController> {
     } else if (fieldName == 'ProdCode') {
       header = 'Product Code';
     } else if (fieldName == 'ISIN') {
-      header = 'Investments Switch Ins(INR.)';
+      header = 'Investments Switch Ins';
     } else if (fieldName == 'Inv_Since') {
       header = 'Inv.Since';
     } else if (fieldName == 'Dividend_Reinvest') {
-      header = 'Dividend Reinvest';
+      header = 'Dividend Reinvested ₹';
     } else if (fieldName == 'Dividend') {
-      header = 'Dividend(INR.)';
+      header = 'Dividend ₹';
     } else if (fieldName == 'Avg_Cost') {
-      header = 'Avg. Cost(INR.)';
+      header = 'Avg. Cost ₹';
     } else if (fieldName == 'No_Of_Days') {
       header = 'No. Of Days';
     } else if (fieldName == 'Abs_Ret_PER') {
-      header = 'Abs. Ret.(%)';
+      header = 'Abs. Rtn.(%)';
     } else if (fieldName == 'WP_PER') {
       header = 'W.P(%)';
     }
@@ -1224,21 +1198,21 @@ class StockHoldingsScreen extends GetView<StockInfoController> {
     } else if (fieldName == 'trxn_type') {
       header = 'Trxn. Type';
     } else if (fieldName == 'amount') {
-      header = 'Amount(INR.)';
+      header = 'Amount ₹';
     } else if (fieldName == 'purprice') {
-      header = 'Pur. Price(INR.)';
+      header = 'Pur. Price ₹';
     } else if (fieldName == 'units') {
       header = 'Units';
     } else if (fieldName == 'bal_units') {
       header = 'Bal. Units';
     } else if (fieldName == 'curr_nav') {
-      header = 'Curr. NAV(INR.)';
+      header = 'Curr. NAV ₹';
     } else if (fieldName == 'curr_unit') {
       header = 'Curr. Unit';
     } else if (fieldName == 'curr_nav_date') {
       header = 'Curr. Nav. Date';
     } else if (fieldName == 'curr_val') {
-      header = 'Curr. Val(INR.)';
+      header = 'Curr. Val ₹';
     }
 
     return header;

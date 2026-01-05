@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:get/get.dart';
 import 'package:inacle_app/constants/app_constants.dart';
@@ -50,7 +51,10 @@ class UserRepository {
       required String mobNo,
       required String emailID}) async {
     try {
-      final response = await _apiService.post('signup',
+      // Determine endpoint based on platform
+      String endpoint = Platform.isIOS ? 'signup_ios' : 'signup';
+
+      final response = await _apiService.post(endpoint,
           body: {"panno": panNo, "mobno": mobNo, "email_id": emailID});
       // return List<Map<String, dynamic>>.from(jsonDecode(response));
 

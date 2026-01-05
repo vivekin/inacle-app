@@ -1,4 +1,4 @@
-package com.example.inacle_app
+package com.salientsoftwares.inacle_app
 
 import io.flutter.embedding.android.FlutterActivity
 

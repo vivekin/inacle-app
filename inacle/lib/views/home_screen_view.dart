@@ -1,23 +1,42 @@
 import 'dart:developer';
-import 'dart:math' as math;
 
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:inacle_app/common/hex_color.dart';
 import 'package:inacle_app/constants/images.dart';
 import 'package:inacle_app/controllers/home_controller.dart';
 import 'package:inacle_app/controllers/stock_info_controller.dart';
 import 'package:inacle_app/repositories/consolidate_repository.dart';
 import 'package:inacle_app/routes.dart';
+import 'package:inacle_app/theme.dart';
+import 'package:inacle_app/widgets/app_loader.dart';
 import 'package:inacle_app/widgets/zoomable_widget.dart';
 import 'package:intl/intl.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class HomeScreen extends GetView<HomeController> {
   const HomeScreen({super.key});
+
+  // Icon and color mapping for each tile
+  static const Map<String, IconData> _tileIcons = {
+    'Total Investment': Icons.account_balance_outlined,
+    'Market Value': Icons.trending_up_rounded,
+    'Total Gain/Loss': Icons.bar_chart_rounded,
+    'Abs. Rtn. / XIRR': Icons.percent_rounded,
+    'No. of Folios': Icons.folder_outlined,
+    'As on Date': Icons.calendar_today_outlined,
+  };
+
+  static const Map<String, Color> _tileIconColors = {
+    'Total Investment': Color(0xFF5C6BC0),
+    'Market Value': Color(0xFF26A69A),
+    'Total Gain/Loss': Color(0xFFEF5350),
+    'Abs. Rtn. / XIRR': Color(0xFFFF7043),
+    'No. of Folios': Color(0xFF7E57C2),
+    'As on Date': Color(0xFF42A5F5),
+  };
 
   @override
   Widget build(BuildContext context) {
@@ -32,713 +51,691 @@ class HomeScreen extends GetView<HomeController> {
         }
       },
       child: Scaffold(
-          backgroundColor: const Color(0xFFF5F5F5),
-          appBar: AppBar(
-              flexibleSpace: Container(
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                    colors: [
-                      HexColor("#ffe2d0").withOpacity(0.8),
-                      HexColor("#a98d7c").withOpacity(0.8),
-                    ],
-                  ),
-                ),
+        backgroundColor: const Color(0xFFF5F5F5),
+        appBar: AppBar(
+          elevation: 0,
+          backgroundColor: Colors.white,
+          title: Padding(
+            padding: EdgeInsets.only(top: 4.h),
+            child: Image.asset(
+              Images.logo,
+              height: 36.h,
+              width: 120.w,
+            ),
+          ),
+          actions: [
+            Padding(
+              padding: const EdgeInsets.only(right: 12),
+              child: IconButton(
+                icon: const Icon(Icons.logout_rounded, color: AppTheme.textSecondary, size: 22),
+                onPressed: () => _showLogoutDialog(context),
               ),
-              title: Container(
-                margin: EdgeInsets.only(top: 16.h, left: 16.w),
-                child: Image.asset(
-                  Images.logo,
-                  height: 45.58.h,
-                  width: 145.03.w,
-                ),
-              ),
-              actions: [
-                IconButton(
-                  icon: Icon(Icons.logout, color: Colors.black, size: 20.sp),
-                  onPressed: () {
-                    showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return AlertDialog(
-                          title: const Text('Confirm Logout'),
-                          content:
-                              const Text('Are you sure you want to logout?'),
-                          actions: <Widget>[
-                            TextButton(
-                              onPressed: () {
-                                Navigator.of(context).pop();
-                              },
-                              child: const Text('Cancel'),
-                            ),
-                            TextButton(
-                              onPressed: () {
-                                Navigator.of(context).pop();
+            ),
+          ],
+        ),
+        body: GetBuilder<HomeController>(builder: (homeController) {
+          if (homeController.isLoading) {
+            return const Center(child: AppLoader());
+          }
 
-                                Get.find<HomeController>().logout();
-                              },
-                              child: const Text('Logout'),
-                            ),
-                          ],
-                        );
-                      },
-                    );
-                  },
-                ),
-              ]),
-          body: GetBuilder<HomeController>(builder: (homeController) {
-            return homeController.isLoading
-                ? const Center(
-                    child: CircularProgressIndicator(),
-                  )
-                : Column(mainAxisAlignment: MainAxisAlignment.start, children: [
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(
-                        'Client : ${homeController.clientName}',
-                        style: const TextStyle(fontFamily: 'Roboto'),
+          return RefreshIndicator(
+            color: AppTheme.primaryColor,
+            onRefresh: () async {
+              await homeController.fetchDashboardDetails();
+            },
+            child: SingleChildScrollView(
+              physics: const AlwaysScrollableScrollPhysics(),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Welcome Header
+                  Container(
+                    width: double.infinity,
+                    padding: const EdgeInsets.fromLTRB(20, 16, 20, 20),
+                    color: Colors.white,
+                    child: Row(
+                      children: [
+                        Container(
+                          width: 48,
+                          height: 48,
+                          decoration: BoxDecoration(
+                            color: AppTheme.primaryColor.withOpacity(0.1),
+                            borderRadius: BorderRadius.circular(24),
+                          ),
+                          child: const Icon(
+                            Icons.person_rounded,
+                            color: AppTheme.primaryColor,
+                            size: 24,
+                          ),
+                        ),
+                        const SizedBox(width: 14),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Welcome',
+                                style: TextStyle(
+                                  fontSize: 13,
+                                  color: AppTheme.textSecondary,
+                                ),
+                              ),
+                              const SizedBox(height: 2),
+                              Text(
+                                homeController.clientName,
+                                style: const TextStyle(
+                                  fontSize: 17,
+                                  fontWeight: FontWeight.w600,
+                                  color: AppTheme.textPrimary,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+
+                  const SizedBox(height: 12),
+
+                  // Portfolio Overview Section
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    child: Text(
+                      'Portfolio Overview',
+                      style: TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w600,
+                        color: AppTheme.textPrimary,
                       ),
                     ),
-                    SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.5,
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 5.0, vertical: 2.0),
-                        child: RefreshIndicator(
-                          onRefresh: () async {
-                            await homeController.fetchDashboardDetails();
+                  ),
+                  const SizedBox(height: 12),
+
+                  // Dashboard Grid
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 12),
+                    child: FutureBuilder<List<GridItem>>(
+                      future: homeController.dashboardFuture,
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState == ConnectionState.waiting) {
+                          return const SizedBox(
+                            height: 200,
+                            child: Center(child: AppLoader(size: 32)),
+                          );
+                        } else if (snapshot.hasError) {
+                          return _buildErrorState();
+                        } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                          return _buildEmptyState();
+                        }
+                        return GridView.builder(
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2,
+                            childAspectRatio: 1.5,
+                            mainAxisSpacing: 10,
+                            crossAxisSpacing: 10,
+                          ),
+                          itemCount: snapshot.data!.length,
+                          itemBuilder: (context, index) {
+                            final item = snapshot.data![index];
+                            return _buildDashboardTile(item);
                           },
-                          child: FutureBuilder<List<GridItem>>(
-                            future: homeController.dashboardFuture,
-                            builder: (context, snapshot) {
-                              if (snapshot.connectionState ==
-                                  ConnectionState.waiting) {
-                                return const Center(
-                                    child: CircularProgressIndicator());
-                              } else if (snapshot.hasError) {
-                                return SingleChildScrollView(
-                                  physics:
-                                      const AlwaysScrollableScrollPhysics(),
-                                  child: Container(
-                                    color: Colors.yellow,
-                                    width: Get.width,
-                                    height: Get.height * 0.5,
-                                    child: const Center(
-                                        child: Text(
-                                      'Failed to Load Data',
-                                      style: TextStyle(fontFamily: 'Roboto'),
-                                    )),
-                                  ),
-                                );
-                              } else if (!snapshot.hasData ||
-                                  snapshot.data!.isEmpty) {
-                                return const Center(
-                                    child: Text('No data available',
-                                        style:
-                                            TextStyle(fontFamily: 'Roboto')));
-                              } else {
-                                return GridView.count(
-                                  crossAxisCount: 2,
-                                  childAspectRatio: 1.5, //1.8,
-                                  children: snapshot.data!.map((item) {
-                                    return GridItem(
-                                      header: item.header,
-                                      value: item.value,
-                                      color: item.color,
-                                    );
-                                  }).toList(),
-                                );
+                        );
+                      },
+                    ),
+                  ),
+
+                  const SizedBox(height: 24),
+
+                  // Quick Actions Section
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    child: Text(
+                      'Quick Actions',
+                      style: TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w600,
+                        color: AppTheme.textPrimary,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 12),
+
+                  // Action Tiles
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 12),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: _buildActionTile(
+                            'SoA Report',
+                            Icons.analytics_outlined,
+                            const Color(0xFF5C6BC0),
+                            () {
+                              if (Get.isRegistered<StockInfoController>()) {
+                                Get.delete<StockInfoController>();
                               }
+                              Get.toNamed(AppRoutes.stockInfo, arguments: 'soa');
                             },
                           ),
                         ),
-                      ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.symmetric(
-                          horizontal: Get.width * 0.2, vertical: 16),
-                      child: Row(
-                        children: [
-                          Expanded(
-                            child: ElevatedButton(
-                              onPressed: () {
-                                if (Get.isRegistered<StockInfoController>()) {
-                                  Get.delete<StockInfoController>();
-                                }
-
-                                Get.toNamed(AppRoutes.stockInfo,
-                                    arguments: 'summary');
-                              },
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: const Color(
-                                    0XFF514c6a), // Button background color
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 24.0, vertical: 12.0),
-                                textStyle: const TextStyle(
-                                  fontSize: 18.0,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                                foregroundColor: Colors.white, // Font color
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(
-                                      8.0), // Reduced border radius
-                                ),
-                                elevation: 10.0, // Increased elevation
-                              ),
-                              child: Text(
-                                'Summary',
-                                style: TextStyle(
-                                    fontSize: 20.0.sp, fontFamily: 'Roboto'),
-                              ),
-                            ),
+                        const SizedBox(width: 10),
+                        Expanded(
+                          child: _buildActionTile(
+                            'Portfolio Summary',
+                            Icons.account_balance_wallet_outlined,
+                            const Color(0xFF26A69A),
+                            () {
+                              if (!Get.isRegistered<StockInfoController>()) {
+                                Get.put(StockInfoController());
+                              }
+                              showHoldingsDialog(context, Get.find<StockInfoController>());
+                            },
                           ),
-                        ],
-                      ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.symmetric(
-                          horizontal: Get.width * 0.2, vertical: 16),
-                      child: Row(
-                        children: [
-                          Expanded(
-                            child: ElevatedButton(
-                              onPressed: () {
-                                if (!Get.isRegistered<StockInfoController>()) {
-                                  Get.put(StockInfoController());
-                                }
-                                showHoldingsDialog(
-                                    context, Get.find<StockInfoController>());
-                              },
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: const Color(
-                                    0XFF514c6a), // Button background color
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 24.0, vertical: 12.0),
-                                textStyle: const TextStyle(
-                                  fontSize: 18.0,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                                foregroundColor: Colors.white, // Font color
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(
-                                      8.0), // Reduced border radius
-                                ),
-                                elevation: 10.0, // Increased elevation
-                              ),
-                              child: Text(
-                                'Holdings',
-                                style: TextStyle(
-                                    fontSize: 20.0.sp, fontFamily: 'Roboto'),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.symmetric(
-                          horizontal: Get.width * 0.2, vertical: 16),
-                      child: Row(
-                        children: [
-                          Expanded(
-                            child: ElevatedButton(
-                              onPressed: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => WebViewScreen(
-                                        url:
-                                            homeController.clientResponse.url ??
-                                                ''),
+                        ),
+                        const SizedBox(width: 10),
+                        Expanded(
+                          child: _buildActionTile(
+                            'My Portal',
+                            Icons.open_in_browser_outlined,
+                            const Color(0xFFFF7043),
+                            () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => WebViewScreen(
+                                    url: homeController.clientResponse.url ?? '',
                                   ),
-                                );
-                              },
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: const Color(
-                                    0XFF514c6a), // Button background color
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 24.0, vertical: 12.0),
-                                textStyle: const TextStyle(
-                                  fontSize: 18.0,
-                                  fontWeight: FontWeight.bold,
                                 ),
-                                foregroundColor: Colors.white, // Font color
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(
-                                      8.0), // Reduced border radius
-                                ),
-                                elevation: 10.0, // Increased elevation
-                              ),
-                              child: Text(
-                                'My Portal',
-                                style: TextStyle(
-                                    fontSize: 20.0.sp, fontFamily: 'Roboto'),
-                              ),
-                            ),
+                              );
+                            },
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
-                  ]);
-          })),
+                  ),
+
+                  const SizedBox(height: 32),
+                ],
+              ),
+            ),
+          );
+        }),
+      ),
     );
   }
 
-  void showHoldingsDialog(
-    BuildContext context,
-    StockInfoController stockInfoController,
-  ) {
+  Widget _buildDashboardTile(GridItem item) {
+    final iconData = _tileIcons[item.header] ?? Icons.info_outline;
+    final iconColor = _tileIconColors[item.header] ?? AppTheme.primaryColor;
+
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(12),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.04),
+            blurRadius: 8,
+            offset: const Offset(0, 2),
+          ),
+        ],
+      ),
+      padding: const EdgeInsets.all(14),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Row(
+            children: [
+              Container(
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  color: iconColor.withOpacity(0.1),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Icon(iconData, color: iconColor, size: 18),
+              ),
+              const Spacer(),
+              if (item.header == 'Total Gain/Loss' || item.header == 'Abs. Rtn. / XIRR')
+                Icon(
+                  _isPositiveValue(item.value) ? Icons.arrow_upward_rounded : Icons.arrow_downward_rounded,
+                  color: _isPositiveValue(item.value) ? AppTheme.successColor : AppTheme.errorColor,
+                  size: 16,
+                ),
+            ],
+          ),
+          const Spacer(),
+          Text(
+            item.header,
+            style: TextStyle(
+              fontSize: 11,
+              color: AppTheme.textSecondary,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+          const SizedBox(height: 4),
+          if (item.header == 'Abs. Rtn. / XIRR')
+            _buildAbsXirrValue(item.value)
+          else
+            AutoSizeText(
+              item.value,
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w700,
+                color: item.header == 'Total Gain/Loss'
+                    ? (_isPositiveValue(item.value) ? AppTheme.successColor : AppTheme.errorColor)
+                    : AppTheme.textPrimary,
+              ),
+              maxLines: 1,
+            ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildAbsXirrValue(String value) {
+    List<String> values = value.split(' / ');
+    String absReturn = values.isNotEmpty ? values[0] : '0.00%';
+    String xirr = values.length > 1 ? values[1] : '0.00%';
+
+    return Row(
+      children: [
+        Flexible(
+          child: Text(
+            absReturn,
+            style: TextStyle(
+              fontSize: 14,
+              fontWeight: FontWeight.w700,
+              color: _isPositiveValue(absReturn) ? AppTheme.successColor : AppTheme.errorColor,
+            ),
+          ),
+        ),
+        Text(
+          ' / ',
+          style: TextStyle(
+            fontSize: 14,
+            fontWeight: FontWeight.w500,
+            color: AppTheme.textSecondary,
+          ),
+        ),
+        Flexible(
+          child: Text(
+            xirr,
+            style: TextStyle(
+              fontSize: 14,
+              fontWeight: FontWeight.w700,
+              color: _isPositiveValue(xirr) ? AppTheme.successColor : AppTheme.errorColor,
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  bool _isPositiveValue(String value) {
+    double parsedValue = double.tryParse(value.replaceAll(RegExp(r'[^0-9.-]'), '')) ?? 0.0;
+    return parsedValue >= 0;
+  }
+
+  Widget _buildActionTile(String label, IconData icon, Color color, VoidCallback onTap) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        padding: const EdgeInsets.symmetric(vertical: 16),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(12),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.04),
+              blurRadius: 8,
+              offset: const Offset(0, 2),
+            ),
+          ],
+        ),
+        child: Column(
+          children: [
+            Container(
+              padding: const EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                color: color.withOpacity(0.1),
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Icon(icon, color: color, size: 22),
+            ),
+            const SizedBox(height: 10),
+            Text(
+              label,
+              style: TextStyle(
+                fontSize: 12,
+                fontWeight: FontWeight.w600,
+                color: AppTheme.textPrimary,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildErrorState() {
+    return Container(
+      height: 200,
+      margin: const EdgeInsets.symmetric(horizontal: 4),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(Icons.refresh_rounded, size: 40, color: AppTheme.textLight),
+            const SizedBox(height: 12),
+            Text(
+              'Failed to load data',
+              style: TextStyle(color: AppTheme.textSecondary, fontSize: 14),
+            ),
+            const SizedBox(height: 4),
+            Text(
+              'Pull down to refresh',
+              style: TextStyle(color: AppTheme.textLight, fontSize: 12),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildEmptyState() {
+    return Container(
+      height: 200,
+      margin: const EdgeInsets.symmetric(horizontal: 4),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Center(
+        child: Text(
+          'No data available',
+          style: TextStyle(color: AppTheme.textSecondary, fontSize: 14),
+        ),
+      ),
+    );
+  }
+
+  void _showLogoutDialog(BuildContext context) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return PopScope(
-            canPop: true,
-            onPopInvoked: (didPop) {
-              SystemChrome.setPreferredOrientations(
-                  [DeviceOrientation.portraitUp]);
-            },
-            child: Material(
-              type: MaterialType.transparency,
-              child: Dialog(
-                insetPadding: EdgeInsets.zero,
-                child: Stack(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(
-                          top: 60,
-                          right:
-                              0), // Adjust padding to avoid close button area
-                      child: SizedBox(
-                        height:
-                            MediaQuery.of(context).size.height, // Screen height
-                        width:
-                            MediaQuery.of(context).size.width, // Screen width
-                        child: FutureBuilder<Map<String, dynamic>>(
-                          future: stockInfoController
-                              .fetchHoldings(), // Your function to fetch data
-                          builder: (BuildContext context,
-                              AsyncSnapshot<Map<String, dynamic>> snapshot) {
-                            if (snapshot.connectionState ==
-                                ConnectionState.waiting) {
-                              return const Center(
-                                child: SizedBox(
-                                  width: 30,
-                                  height: 30,
-                                  child: CircularProgressIndicator(),
-                                ),
-                              );
-                            } else if (snapshot.hasError) {
-                              return Text(
-                                'Error: ${snapshot.error}',
-                                style: const TextStyle(fontFamily: 'Roboto'),
-                              );
-                            } else {
-                              List<Map<String, dynamic>> data =
-                                  List<Map<String, dynamic>>.from(
-                                      snapshot.data!['data']);
-                              List<Map<String, dynamic>> total =
-                                  List<Map<String, dynamic>>.from(
-                                      snapshot.data!['total']);
-
-                              String clientName = data.isNotEmpty
-                                  ? data[0]['Client Name'] ?? ''
-                                  : '';
-
-                              return ZoomableWidget(
-                                child: Column(
-                                  children: [
-                                    Container(
-                                      width: double.infinity,
-                                      color: Colors.blue.shade100,
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Text(
-                                        'Client Name: $clientName',
-                                        style: TextStyle(
-                                          fontSize: 18,
-                                          fontFamily: 'Roboto',
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.blue.shade900,
-                                        ),
-                                        textAlign: TextAlign.left,
-                                      ),
-                                    ),
-                                    Expanded(
-                                      child: SingleChildScrollView(
-                                        scrollDirection: Axis.horizontal,
-                                        child: SingleChildScrollView(
-                                          scrollDirection: Axis.vertical,
-                                          child: DataTable(
-                                            headingRowColor:
-                                                WidgetStateProperty.all(
-                                                    Colors.blue), // Blue header
-                                            columns: const [
-                                              DataColumn(
-                                                  label: Text('Category',
-                                                      style: TextStyle(
-                                                          fontFamily: 'Roboto',
-                                                          color:
-                                                              Colors.white))),
-                                              DataColumn(
-                                                  label: Text('Scheme Name',
-                                                      style: TextStyle(
-                                                          fontFamily: 'Roboto',
-                                                          color:
-                                                              Colors.white))),
-                                              DataColumn(
-                                                  label: Text('Folio Number',
-                                                      style: TextStyle(
-                                                          fontFamily: 'Roboto',
-                                                          color:
-                                                              Colors.white))),
-                                              DataColumn(
-                                                  label: Text('Ref',
-                                                      style: TextStyle(
-                                                          fontFamily: 'Roboto',
-                                                          color:
-                                                              Colors.white))),
-                                              DataColumn(
-                                                  label: Text('Inv. Since',
-                                                      style: TextStyle(
-                                                          fontFamily: 'Roboto',
-                                                          color:
-                                                              Colors.white))),
-                                              DataColumn(
-                                                  label: Text(
-                                                      'Investments & Switch Ins (INR.)',
-                                                      style: TextStyle(
-                                                          fontFamily: 'Roboto',
-                                                          color:
-                                                              Colors.white))),
-                                              DataColumn(
-                                                  label: Text(
-                                                      'Dividend Reinvest',
-                                                      style: TextStyle(
-                                                          fontFamily: 'Roboto',
-                                                          color:
-                                                              Colors.white))),
-                                              DataColumn(
-                                                  label: Text('Dividend (INR.)',
-                                                      style: TextStyle(
-                                                          fontFamily: 'Roboto',
-                                                          color:
-                                                              Colors.white))),
-                                              DataColumn(
-                                                  label: Text('Redemption',
-                                                      style: TextStyle(
-                                                          fontFamily: 'Roboto',
-                                                          color:
-                                                              Colors.white))),
-                                              DataColumn(
-                                                  label: Text('No of Units',
-                                                      style: TextStyle(
-                                                          fontFamily: 'Roboto',
-                                                          color:
-                                                              Colors.white))),
-                                              DataColumn(
-                                                  label: Text(
-                                                      'Current NAV (INR.)',
-                                                      style: TextStyle(
-                                                          fontFamily: 'Roboto',
-                                                          color:
-                                                              Colors.white))),
-                                              DataColumn(
-                                                  label: Text(
-                                                      'Avg Value (INR.)',
-                                                      style: TextStyle(
-                                                          fontFamily: 'Roboto',
-                                                          color:
-                                                              Colors.white))),
-                                              DataColumn(
-                                                  label: Text(
-                                                      'Market Value (INR.)',
-                                                      style: TextStyle(
-                                                          fontFamily: 'Roboto',
-                                                          color:
-                                                              Colors.white))),
-                                              DataColumn(
-                                                  label: Text(
-                                                      'Gain/Loss (INR.)',
-                                                      style: TextStyle(
-                                                          fontFamily: 'Roboto',
-                                                          color:
-                                                              Colors.white))),
-                                              DataColumn(
-                                                  label: Text('Abs. Ret (%)',
-                                                      style: TextStyle(
-                                                          fontFamily: 'Roboto',
-                                                          color:
-                                                              Colors.white))),
-                                              DataColumn(
-                                                  label: Text('No of Days',
-                                                      style: TextStyle(
-                                                          fontFamily: 'Roboto',
-                                                          color:
-                                                              Colors.white))),
-                                              DataColumn(
-                                                  label: Text('XIRR (%)',
-                                                      style: TextStyle(
-                                                          fontFamily: 'Roboto',
-                                                          color:
-                                                              Colors.white))),
-                                              DataColumn(
-                                                  label: Text('W.P (%)',
-                                                      style: TextStyle(
-                                                          fontFamily: 'Roboto',
-                                                          color:
-                                                              Colors.white))),
-                                            ],
-                                            rows: [
-                                              ...data.map((row) {
-                                                return DataRow(cells: [
-                                                  DataCell(Text(
-                                                      row['Category'] ?? '',
-                                                      style: const TextStyle(
-                                                          fontFamily:
-                                                              'Roboto'))),
-                                                  DataCell(Text(
-                                                      row['Scheme Name'] ?? '',
-                                                      style: const TextStyle(
-                                                          fontFamily:
-                                                              'Roboto'))),
-                                                  DataCell(Text(
-                                                      row['Folio Number'] ?? '',
-                                                      style: const TextStyle(
-                                                          fontFamily:
-                                                              'Roboto'))),
-                                                  DataCell(Text(
-                                                      row['ARN'] ?? '',
-                                                      style: const TextStyle(
-                                                          fontFamily:
-                                                              'Roboto'))),
-                                                  DataCell(Text(
-                                                      formatDate(
-                                                          row['Inv. Since'] ??
-                                                              ''),
-                                                      style: const TextStyle(
-                                                          fontFamily:
-                                                              'Roboto'))),
-                                                  DataCell(Text(
-                                                      formatValue(
-                                                          row['Investments & Switch Ins (INR.)'] ??
-                                                              '0'),
-                                                      style: const TextStyle(
-                                                          fontFamily:
-                                                              'Roboto'))),
-                                                  DataCell(Text(
-                                                      formatValue(
-                                                          row['Dividend Reinvest'] ??
-                                                              '0'),
-                                                      style: const TextStyle(
-                                                          fontFamily:
-                                                              'Roboto'))),
-                                                  DataCell(Text(
-                                                      formatValue(
-                                                          row['Dividend (INR.)'] ??
-                                                              '0'),
-                                                      style: const TextStyle(
-                                                          fontFamily:
-                                                              'Roboto'))),
-                                                  DataCell(Text(
-                                                      formatValue(
-                                                          row['Redemption'] ??
-                                                              '0'),
-                                                      style: const TextStyle(
-                                                          fontFamily:
-                                                              'Roboto'))),
-                                                  DataCell(Text(
-                                                      formatValue(
-                                                          row['No. of Units'] ??
-                                                              '0'),
-                                                      style: const TextStyle(
-                                                          fontFamily:
-                                                              'Roboto'))),
-                                                  DataCell(Text(
-                                                      formatValue(
-                                                          row['Current NAV (INR.)'] ??
-                                                              '0'),
-                                                      style: const TextStyle(
-                                                          fontFamily:
-                                                              'Roboto'))),
-                                                  DataCell(Text(
-                                                      formatValue(
-                                                          row['Avg Value (INR.)'] ??
-                                                              '0'),
-                                                      style: const TextStyle(
-                                                          fontFamily:
-                                                              'Roboto'))),
-                                                  DataCell(Text(
-                                                      formatValue(
-                                                          row['Market Value (INR.)'] ??
-                                                              '0'),
-                                                      style: const TextStyle(
-                                                          fontFamily:
-                                                              'Roboto'))),
-
-                                                  // Gain/Loss (Dynamically Colored)
-                                                  DataCell(Text(
-                                                    formatGainLossValue(
-                                                        row['Gain/Loss (INR.)'] ??
-                                                            '0'),
-                                                    style: TextStyle(
-                                                      fontFamily: 'Roboto',
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      color: _getDynamicColor(row[
-                                                          'Gain/Loss (INR.)']),
-                                                    ),
-                                                  )),
-
-                                                  // Abs. Ret (%) (Dynamically Colored)
-                                                  DataCell(Text(
-                                                    formatPercentage(
-                                                        row['Abs. Ret(%)']),
-                                                    style: TextStyle(
-                                                      fontFamily: 'Roboto',
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      color: _getDynamicColor(
-                                                          row['Abs. Ret(%)']),
-                                                    ),
-                                                  )),
-
-                                                  DataCell(Text(
-                                                      formatValue(
-                                                          row['No. of Days'] ??
-                                                              '0'),
-                                                      style: const TextStyle(
-                                                          fontFamily:
-                                                              'Roboto'))),
-
-                                                  // XIRR (%) (Dynamically Colored)
-                                                  DataCell(Text(
-                                                    formatPercentage(
-                                                        row['XIRR (%)']),
-                                                    style: TextStyle(
-                                                      fontFamily: 'Roboto',
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      color: _getDynamicColor(
-                                                          row['XIRR (%)']),
-                                                    ),
-                                                  )),
-
-                                                  DataCell(Text(
-                                                      formatValue(
-                                                          row['W.P. (%)'] ??
-                                                              '0'),
-                                                      style: const TextStyle(
-                                                          fontFamily:
-                                                              'Roboto'))),
-                                                ]);
-                                              }),
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              );
-                            }
-                          },
-                        ),
-                      ),
-                    ),
-                    // ],
-                    // ),
-                    Positioned(
-                      top: 10,
-                      right: 10,
-                      child: Row(
-                        children: [
-                          IconButton(
-                            icon: const Icon(Icons.screen_rotation,
-                                color: Colors.black),
-                            onPressed: () {
-                              if (MediaQuery.of(context).orientation ==
-                                  Orientation.portrait) {
-                                SystemChrome.setPreferredOrientations([
-                                  DeviceOrientation.landscapeLeft,
-                                  DeviceOrientation.landscapeRight,
-                                ]);
-                              } else {
-                                SystemChrome.setPreferredOrientations([
-                                  DeviceOrientation.portraitUp,
-                                  DeviceOrientation.portraitDown,
-                                ]);
-                              }
-                            },
-                          ),
-                          IconButton(
-                            icon: const Icon(Icons.close, color: Colors.black),
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                              SystemChrome.setPreferredOrientations([
-                                DeviceOrientation.portraitUp,
-                                DeviceOrientation.portraitDown,
-                              ]);
-                            },
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ));
+        return AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+          ),
+          title: const Text(
+            'Logout',
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+          ),
+          content: const Text(
+            'Are you sure you want to logout?',
+            style: TextStyle(color: AppTheme.textSecondary),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: Text('Cancel', style: TextStyle(color: AppTheme.textSecondary)),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+                Get.find<HomeController>().logout();
+              },
+              child: const Text('Logout', style: TextStyle(color: AppTheme.errorColor)),
+            ),
+          ],
+        );
       },
     );
   }
 
-//   String formatValue(String? value) {
-//   if (value == null || value.isEmpty) return '₹0.00';
-//   return '₹${double.tryParse(value)?.toStringAsFixed(2) ?? '0.00'}';
-// }
+  void showHoldingsDialog(BuildContext context, StockInfoController stockInfoController) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return PopScope(
+          canPop: true,
+          onPopInvoked: (didPop) {
+            SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+          },
+          child: Material(
+            type: MaterialType.transparency,
+            child: Dialog(
+              insetPadding: EdgeInsets.zero,
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+              child: Stack(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(top: 56),
+                    child: SizedBox(
+                      height: MediaQuery.of(context).size.height,
+                      width: MediaQuery.of(context).size.width,
+                      child: FutureBuilder<Map<String, dynamic>>(
+                        future: stockInfoController.fetchHoldings(),
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState == ConnectionState.waiting) {
+                            return const Center(child: AppLoader(size: 32));
+                          } else if (snapshot.hasError) {
+                            return Center(
+                              child: Text('Error: ${snapshot.error}',
+                                  style: const TextStyle(color: AppTheme.errorColor)),
+                            );
+                          }
+
+                          List<Map<String, dynamic>> data =
+                              List<Map<String, dynamic>>.from(snapshot.data!['data']);
+                          String clientName = data.isNotEmpty ? data[0]['Client Name'] ?? '' : '';
+
+                          return ZoomableWidget(
+                            child: Column(
+                              children: [
+                                Container(
+                                  width: double.infinity,
+                                  color: AppTheme.primaryColor.withOpacity(0.08),
+                                  padding: const EdgeInsets.all(14),
+                                  child: Text(
+                                    'Client: $clientName',
+                                    style: const TextStyle(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w600,
+                                      color: AppTheme.primaryColor,
+                                    ),
+                                  ),
+                                ),
+                                Expanded(
+                                  child: SingleChildScrollView(
+                                    scrollDirection: Axis.horizontal,
+                                    child: SingleChildScrollView(
+                                      scrollDirection: Axis.vertical,
+                                      child: _buildDataTable(data),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                  ),
+                  Positioned(
+                    top: 12,
+                    right: 12,
+                    child: Row(
+                      children: [
+                        _buildDialogIconButton(Icons.screen_rotation_rounded, () {
+                          if (MediaQuery.of(context).orientation == Orientation.portrait) {
+                            SystemChrome.setPreferredOrientations([
+                              DeviceOrientation.landscapeLeft,
+                              DeviceOrientation.landscapeRight,
+                            ]);
+                          } else {
+                            SystemChrome.setPreferredOrientations([
+                              DeviceOrientation.portraitUp,
+                              DeviceOrientation.portraitDown,
+                            ]);
+                          }
+                        }),
+                        const SizedBox(width: 8),
+                        _buildDialogIconButton(Icons.close_rounded, () {
+                          Navigator.of(context).pop();
+                          SystemChrome.setPreferredOrientations([
+                            DeviceOrientation.portraitUp,
+                            DeviceOrientation.portraitDown,
+                          ]);
+                        }),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _buildDialogIconButton(IconData icon, VoidCallback onPressed) {
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(8),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.08),
+            blurRadius: 4,
+            offset: const Offset(0, 1),
+          ),
+        ],
+      ),
+      child: IconButton(
+        icon: Icon(icon, color: AppTheme.textPrimary, size: 20),
+        onPressed: onPressed,
+        padding: const EdgeInsets.all(8),
+        constraints: const BoxConstraints(),
+      ),
+    );
+  }
+
+  DataTable _buildDataTable(List<Map<String, dynamic>> data) {
+    const headerStyle = TextStyle(
+      color: Colors.white,
+      fontWeight: FontWeight.w600,
+      fontSize: 12,
+    );
+
+    const cellStyle = TextStyle(fontSize: 12, color: AppTheme.textPrimary);
+
+    return DataTable(
+      headingRowColor: WidgetStateProperty.all(AppTheme.primaryColor),
+      dataRowMinHeight: 44,
+      dataRowMaxHeight: 52,
+      horizontalMargin: 12,
+      columnSpacing: 16,
+      columns: const [
+        DataColumn(label: Text('Category', style: headerStyle)),
+        DataColumn(label: Text('Scheme Name', style: headerStyle)),
+        DataColumn(label: Text('Folio Number', style: headerStyle)),
+        DataColumn(label: Text('Ref.', style: headerStyle)),
+        DataColumn(label: Text('Inv. Since', style: headerStyle)),
+        DataColumn(label: Text('Invested ₹', style: headerStyle)),
+        DataColumn(label: Text('Div. Reinvested ₹', style: headerStyle)),
+        DataColumn(label: Text('Dividend ₹', style: headerStyle)),
+        DataColumn(label: Text('Redemption ₹', style: headerStyle)),
+        DataColumn(label: Text('No. of Units', style: headerStyle)),
+        DataColumn(label: Text('Current NAV ₹', style: headerStyle)),
+        DataColumn(label: Text('Avg Value ₹', style: headerStyle)),
+        DataColumn(label: Text('Market Value ₹', style: headerStyle)),
+        DataColumn(label: Text('Gain/Loss ₹', style: headerStyle)),
+        DataColumn(label: Text('Abs. Rtn (%)', style: headerStyle)),
+        DataColumn(label: Text('No. of Days', style: headerStyle)),
+        DataColumn(label: Text('XIRR (%)', style: headerStyle)),
+        DataColumn(label: Text('W.P (%)', style: headerStyle)),
+      ],
+      rows: data.map((row) {
+        return DataRow(cells: [
+          DataCell(Text(row['Category'] ?? '', style: cellStyle)),
+          DataCell(Text(row['Scheme Name'] ?? '', style: cellStyle)),
+          DataCell(Text(row['Folio Number'] ?? '', style: cellStyle)),
+          DataCell(Text(row['ARN'] ?? '', style: cellStyle)),
+          DataCell(Text(formatDate(row['Inv. Since'] ?? ''), style: cellStyle)),
+          DataCell(Text(formatValue(row['Investments & Switch Ins (INR.)'] ?? '0'), style: cellStyle)),
+          DataCell(Text(formatValue(row['Dividend Reinvest'] ?? '0'), style: cellStyle)),
+          DataCell(Text(formatValue(row['Dividend (INR.)'] ?? '0'), style: cellStyle)),
+          DataCell(Text(formatValue(row['Redemption'] ?? '0'), style: cellStyle)),
+          DataCell(Text(formatValue(row['No. of Units'] ?? '0'), style: cellStyle)),
+          DataCell(Text(formatValue(row['Current NAV (INR.)'] ?? '0'), style: cellStyle)),
+          DataCell(Text(formatValue(row['Avg Value (INR.)'] ?? '0'), style: cellStyle)),
+          DataCell(Text(formatValue(row['Market Value (INR.)'] ?? '0'), style: cellStyle)),
+          DataCell(Text(
+            formatGainLossValue(row['Gain/Loss (INR.)'] ?? '0'),
+            style: TextStyle(
+              fontWeight: FontWeight.w600,
+              fontSize: 12,
+              color: _getDynamicColor(row['Gain/Loss (INR.)']),
+            ),
+          )),
+          DataCell(Text(
+            formatPercentage(row['Abs. Ret(%)']),
+            style: TextStyle(
+              fontWeight: FontWeight.w600,
+              fontSize: 12,
+              color: _getDynamicColor(row['Abs. Ret(%)']),
+            ),
+          )),
+          DataCell(Text(formatValue(row['No. of Days'] ?? '0'), style: cellStyle)),
+          DataCell(Text(
+            formatPercentage(row['XIRR (%)']),
+            style: TextStyle(
+              fontWeight: FontWeight.w600,
+              fontSize: 12,
+              color: _getDynamicColor(row['XIRR (%)']),
+            ),
+          )),
+          DataCell(Text(formatValue(row['W.P. (%)'] ?? '0'), style: cellStyle)),
+        ]);
+      }).toList(),
+    );
+  }
 
   String formatPercentage(String? value) {
     if (value == null || value.isEmpty) return '0.00%';
-
     double percentage = double.tryParse(value) ?? 0.0;
     String formattedValue = '${percentage.abs().toStringAsFixed(2)}%';
-
     return percentage >= 0 ? '+$formattedValue' : '-$formattedValue';
   }
 
-// Function to determine dynamic text color
   Color _getDynamicColor(String? value) {
     double parsedValue =
-        double.tryParse(value?.replaceAll(RegExp(r'[^0-9.-]'), '') ?? '0') ??
-            0.0;
-    return parsedValue < 0 ? Colors.red : Colors.green;
+        double.tryParse(value?.replaceAll(RegExp(r'[^0-9.-]'), '') ?? '0') ?? 0.0;
+    return parsedValue < 0 ? AppTheme.errorColor : AppTheme.successColor;
   }
 
   String formatValue(String value) {
-// Remove any non-numeric characters except the decimal point
     String numericString = value.replaceAll(RegExp(r'[^\d.]'), '');
-
-// Convert to double and format to two decimal places
     double? numericValue = double.tryParse(numericString);
-    if (numericValue == null) {
-// Handle the case where the string could not be parsed
-      return '0.00';
-    }
+    if (numericValue == null) return '0.00';
     return numericValue.toStringAsFixed(2);
   }
 
   String formatGainLossValue(String? value) {
-    if (value == null || value.isEmpty) return '₹0.00';
-
-    // Keep numbers, decimal points, and signs (+ or -)
+    if (value == null || value.isEmpty) return '0.00';
     String cleanedValue = value.replaceAll(RegExp(r'[^0-9+-.]'), '');
-
-    // Convert to double
     double numericValue = double.tryParse(cleanedValue) ?? 0.0;
-
-    // Format to two decimal places
-    String formattedValue = '₹${numericValue.abs().toStringAsFixed(2)}';
-
-    // Append '+' or '-' sign
+    String formattedValue = numericValue.abs().toStringAsFixed(2);
     return numericValue >= 0 ? '+$formattedValue' : '-$formattedValue';
   }
 
@@ -753,22 +750,14 @@ class HomeScreen extends GetView<HomeController> {
 }
 
 String formatValue(String value) {
-// Check if the value contains the currency symbol
   bool containsCurrencySymbol = value.contains('₹');
-
-// Remove any non-numeric characters except the decimal point
   String numericString = value.replaceAll(RegExp(r'[^\d.]'), '');
-
-// Convert to double and format to two decimal places
   double? numericValue = double.tryParse(numericString);
   if (numericValue == null) {
-// Handle the case where the string could not be parsed
     log(value);
     return value;
   }
   String formattedValue = numericValue.toStringAsFixed(2);
-
-// Add the currency prefix if it was present in the original value
   return containsCurrencySymbol ? '₹$formattedValue' : formattedValue;
 }
 
@@ -786,128 +775,7 @@ class GridItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Default text color (White for all fields except specific ones)
-    Color textColor = Colors.white;
-
-    // Check if the header is one of the 3 fields that need color formatting
-    if (header == 'Total Gain/Loss' || header == 'Abs Rtn. / XIRR') {
-      if (header == 'Total Gain/Loss') {
-        textColor = _getDynamicColor(value); // Apply color change for Gain/Loss
-      }
-    }
-
-    return Card(
-      margin: const EdgeInsets.all(8.0),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(16.0),
-      ),
-      child: Container(
-        decoration: BoxDecoration(
-          color: color,
-          borderRadius: BorderRadius.circular(16.0),
-        ),
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              header,
-              style: const TextStyle(
-                fontWeight: FontWeight.normal,
-                fontSize: 14.0,
-                fontFamily: 'Roboto',
-                color: Colors.white, // Header remains white
-              ),
-            ),
-            const SizedBox(height: 8.0),
-
-            // Handling Abs Rtn. / XIRR separately as it has two values
-            if (header == 'Abs Rtn. / XIRR') _buildAbsXirrRow(value),
-            if (header != 'Abs Rtn. / XIRR')
-              AutoSizeText(
-                value,
-                textAlign: TextAlign.left,
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontFamily: 'Roboto',
-                  fontSize: 18.0,
-                  color: textColor, // Apply dynamic color only where required
-                ),
-                maxLines: 2,
-              ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildAbsXirrRow(String value) {
-    List<String> values = value.split(' / ');
-    String absReturn = values.isNotEmpty ? values[0] : '0.00%';
-    String xirr = values.length > 1 ? values[1] : '0.00%';
-
-    Color absReturnColor = _getDynamicColor(absReturn);
-    Color xirrColor = _getDynamicColor(xirr);
-
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.start, // Keeps alignment as before
-      children: [
-        // Abs Return with Flexible to prevent overflow
-        Flexible(
-          child: AutoSizeText(
-            absReturn,
-            maxLines: 1,
-            minFontSize: 12,
-            overflow: TextOverflow.ellipsis,
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontFamily: 'Roboto',
-              fontSize: 18.0,
-              color: absReturnColor, // Dynamic color for Abs Return
-            ),
-          ),
-        ),
-
-        const SizedBox(width: 4.0), // Keeps spacing consistent
-
-        // Separator "/"
-        const Text(
-          '/',
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            fontFamily: 'Roboto',
-            fontSize: 18.0,
-            color: Colors.white, // Keeps separator white
-          ),
-        ),
-
-        const SizedBox(width: 4.0), // Keeps spacing consistent
-
-        // XIRR with Flexible to prevent overflow
-        Flexible(
-          child: AutoSizeText(
-            xirr,
-            maxLines: 1,
-            minFontSize: 12,
-            overflow: TextOverflow.ellipsis,
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontFamily: 'Roboto',
-              fontSize: 18.0,
-              color: xirrColor, // Dynamic color for XIRR
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-
-  // Function to determine text color dynamically for numeric values
-  Color _getDynamicColor(String value) {
-    double parsedValue =
-        double.tryParse(value.replaceAll(RegExp(r'[^0-9.-]'), '')) ?? 0.0;
-    return parsedValue < 0 ? Colors.red : Colors.green;
+    return const SizedBox.shrink();
   }
 }
 
@@ -917,17 +785,25 @@ class WebViewScreen extends StatefulWidget {
   const WebViewScreen({super.key, required this.url});
 
   @override
-  _WebViewScreenState createState() => _WebViewScreenState();
+  State<WebViewScreen> createState() => _WebViewScreenState();
 }
 
 class _WebViewScreenState extends State<WebViewScreen> {
   late final WebViewController _controller;
+  bool _isLoading = true;
 
   @override
   void initState() {
     super.initState();
     _controller = WebViewController()
       ..setJavaScriptMode(JavaScriptMode.unrestricted)
+      ..setNavigationDelegate(
+        NavigationDelegate(
+          onPageFinished: (url) {
+            setState(() => _isLoading = false);
+          },
+        ),
+      )
       ..loadRequest(Uri.parse(widget.url));
   }
 
@@ -935,7 +811,29 @@ class _WebViewScreenState extends State<WebViewScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        body: WebViewWidget(controller: _controller),
+        appBar: AppBar(
+          backgroundColor: Colors.white,
+          elevation: 0,
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back_ios_rounded, size: 20, color: AppTheme.textPrimary),
+            onPressed: () => Navigator.pop(context),
+          ),
+          title: const Text(
+            'My Portal',
+            style: TextStyle(
+              fontSize: 17,
+              fontWeight: FontWeight.w600,
+              color: AppTheme.textPrimary,
+            ),
+          ),
+        ),
+        body: Stack(
+          children: [
+            WebViewWidget(controller: _controller),
+            if (_isLoading)
+              const Center(child: AppLoader()),
+          ],
+        ),
       ),
     );
   }
