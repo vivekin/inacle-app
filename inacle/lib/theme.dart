@@ -92,7 +92,7 @@ class AppTheme {
       surface: surfaceColor,
       error: errorColor,
     ),
-    cardTheme: CardTheme(
+    cardTheme: CardThemeData(
       elevation: 0,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(radiusMedium),
@@ -198,7 +198,7 @@ class AppTheme {
         letterSpacing: 0.3,
       ),
     ),
-    dialogTheme: DialogTheme(
+    dialogTheme: DialogThemeData(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(radiusMedium),
       ),
