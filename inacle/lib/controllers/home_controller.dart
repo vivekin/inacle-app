@@ -154,11 +154,11 @@ class HomeController extends GetxController {
             value: '₹${_grandTotalList.first.marketValue}',
             color: const Color(0XFFf76915)),
         GridItem(
-            header: 'Total Div. Paid',
+            header: 'Total Dividend Paid',
             value: '₹${_grandTotalList.first.dividend}',
             color: const Color(0XFFcbbf0b)),
         GridItem(
-            header: 'Total Div. Reinvested',
+            header: 'Total Dividend Reinvested',
             value: '₹${_grandTotalList.first.dividendReinvest}',
             color: const Color(0XFFa0d636)),
         GridItem(
