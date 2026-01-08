@@ -1,0 +1,130 @@
+Android:
+Inacle Client
+Track and analyze your mutual fund investments with detailed portfolio insights and performance reports.
+
+Key Features:
+
+    Portfolio Dashboard: View total investment, current valuation, dividends (paid and reinvested), gain/loss, and XIRR at a glance.
+    Statement of Accounts (SoA): Access detailed fund information including investment amount, units, NAV, market value, transaction history, and performance metrics for each scheme.
+    Portfolio Summary: Review consolidated holdings with folio details, dividend tracking, redemption history, and performance analysis (absolute returns, XIRR, weighted portfolio percentage).
+    Portal Access: Login to Inacle portal.
+
+iOS:
+Promotional Text
+Track your mutual fund portfolio with precision.
+Get real-time insights, performance analytics, and comprehensive reports.
+
+Description
+Track your mutual fund portfolio with precision. Get real-time insights, performance analytics, and comprehensive reports.
+
+Inacle Client is your complete mutual fund investment companion, designed to help you monitor, analyze, and optimize your portfolio with professional-grade tools and insights.
+
+COMPREHENSIVE PORTFOLIO DASHBOARD
+Get instant visibility into your investments with a unified dashboard showing total investment value, current valuation, dividend earnings (both paid and reinvested), overall gain/loss, and portfolio XIRR.
+
+DETAILED STATEMENT OF ACCOUNTS
+Access in-depth information for every fund in your portfolio, including investment amounts, unit holdings, NAV, market values, transaction history, absolute returns, and XIRR.
+
+PORTFOLIO SUMMARY & ANALYTICS
+View consolidated holdings across all folios with performance metrics such as absolute returns, XIRR, average cost, and weighted portfolio distribution.
+
+TRANSACTION HISTORY
+Track all transactions with complete details including date, transaction type, NAV, units, balance units, and current value.
+
+SEAMLESS PORTAL ACCESS
+Direct login to the Inacle portal for additional account management and investment operations.
+
+Note: This app is a read-only reporting tool for mutual fund investments in India. It does NOT involve cryptocurrency, exchange services, or any financial transactions. Users can only view their existing mutual fund investment details—no buying, selling, or trading is possible through this app.
+
+Add:
+This uniquely created app is only restricted to those clients whose MFD/IFAs are registered users of Inacle.
+
+
+================================================
+
+
+Homepage
+
+Portfolio Overview:
+Total Investment
+Total Valuation
+Total Div. Paid
+Total Div. Reinvested
+Total Gain/Loss
+Abs. Rtn. / XIRR
+
+Quick Actions:
+SoA Report
+Portfolio Summary
+My Portal
+
+------------------------
+SoA Report
+
+for each fund:
+[Fund name - Folio no.]
+Invested ₹
+No. of Units
+Market Value ₹
+NAV ₹
+Gain/Loss
+XIRR(%)
+
+
+Expand ->
+Client Id
+Client Name
+Scheme Name
+Folio Number
+Product Code
+Category
+Investment Switch Ins
+ARN
+Inv.since
+Dividend Reinvested ₹
+Dividend ₹
+Redemption
+Avg. Cost ₹
+Avg_value
+Abs. Rtn.(%)
+No. of days
+W.P(%)
+
+Statement ->
+[Folio No.]
+[Fund name]
+Date
+Transaction Desc.
+Trn. Type
+Amount ₹
+NAV ₹
+Number of Units
+Balance Units
+[Market Value]
+
+------------------------
+Portfolio Summary
+
+Category
+Scheme Name
+Folio Number
+Ref.
+Inv. Since
+Invested ₹
+Div. Reinvested ₹
+Dividend ₹
+Redemption ₹
+No. of Units
+Current NAV ₹
+Avg Value ₹
+Market Value ₹
+Gain/Loss ₹
+Abs. Rtn (%)
+No. of Days
+XIRR (%)
+W.P (%)
+
+------------------------
+My Portal
+
+Page to login to inacle portal
