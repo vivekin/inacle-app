@@ -678,7 +678,7 @@ class HomeScreen extends GetView<HomeController> {
           DataCell(Text(formatValue(row['Redemption'] ?? '0'), style: cellStyle)),
           DataCell(Text(formatValue(row['No. of Units'] ?? '0'), style: cellStyle)),
           DataCell(Text(formatValue(row['Current NAV (INR.)'] ?? '0'), style: cellStyle)),
-          DataCell(Text(formatValue(row['Avg Value (INR.)'] ?? '0'), style: cellStyle)),
+          DataCell(Text(formatValue(row['Avg. Value (INR.)'] ?? '0'), style: cellStyle)),
           DataCell(Text(formatValue(row['Market Value (INR.)'] ?? '0'), style: cellStyle)),
           DataCell(Text(
             formatGainLossValue(row['Gain/Loss (INR.)'] ?? '0'),
