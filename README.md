@@ -2,6 +2,11 @@
 
 https://app.inacle.co.in/
 
+https://apps.apple.com/in/app/inacle-client/id6757377442
+
+https://play.google.com/store/apps/details?id=com.inacle
+
+
 [Privacy Policy](https://inacle.co.in/privacypolicy.html)<br>
 https://inacle.co.in/privacypolicy.html
 
