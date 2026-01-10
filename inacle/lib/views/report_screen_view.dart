@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:inacle_app/common/hex_color.dart';
+// import 'package:inacle_app/common/hex_color.dart';
 import 'package:inacle_app/constants/images.dart';
 
 class ReportScreen extends StatelessWidget {
