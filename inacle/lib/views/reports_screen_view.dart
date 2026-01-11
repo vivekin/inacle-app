@@ -118,7 +118,7 @@ class StockSummaryScreen extends GetView<StockInfoController> {
                                             ),
                                           ),
                                           DataTable(
-                                            headingRowHeight: 40,
+                                            headingRowHeight: 20,
                                             headingTextStyle: const TextStyle(
                                                 fontSize: 20,
                                                 fontWeight: FontWeight.bold,
@@ -236,7 +236,8 @@ class StockSummaryScreen extends GetView<StockInfoController> {
                                                 horizontal: 8),
                                             child: Row(
                                               mainAxisAlignment:
-                                                  MainAxisAlignment.center,
+                                                  // MainAxisAlignment.center,
+                                                  MainAxisAlignment.start,
                                               children: [
                                                 Container(),
                                                 InkWell(
@@ -259,12 +260,14 @@ class StockSummaryScreen extends GetView<StockInfoController> {
                                                     padding:
                                                         const EdgeInsets.all(8),
                                                     child: const Text(
-                                                      'Statement',
+                                                      '> View Statement',
                                                       style: TextStyle(
                                                         color: Colors.blue,
-                                                        decoration:
-                                                            TextDecoration
-                                                                .underline,
+                                                        fontWeight:
+                                                          FontWeight.bold,
+                                                        // decoration:
+                                                        //     TextDecoration
+                                                        //         .underline,
                                                         fontFamily: 'Roboto',
                                                       ),
                                                     ),
