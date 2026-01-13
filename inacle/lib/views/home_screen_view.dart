@@ -59,10 +59,13 @@ class HomeScreen extends GetView<HomeController> {
           title: Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              Image.asset(
-                Images.logo,
-                height: 40.h,
-                width: 100.w,
+              Padding(
+                padding: EdgeInsets.only(left: 15.w),
+                child: Image.asset(
+                  Images.logo,
+                  height: 40.h,
+                  width: 100.w,
+                ),
               ),
             ],
           ),
@@ -94,7 +97,7 @@ class HomeScreen extends GetView<HomeController> {
                   // Welcome Header
                   Container(
                     width: double.infinity,
-                    padding: const EdgeInsets.fromLTRB(20, 6, 20, 6),
+                    padding: const EdgeInsets.fromLTRB(15, 6, 15, 6),
                     color: Colors.white,
                     child: Row(
                       children: [
@@ -104,7 +107,7 @@ class HomeScreen extends GetView<HomeController> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                'Welcome',
+                                'Welcome,',
                                 style: TextStyle(
                                   fontSize: 13,
                                   color: AppTheme.textSecondary,
@@ -114,7 +117,7 @@ class HomeScreen extends GetView<HomeController> {
                               Text(
                                 homeController.clientName,
                                 style: const TextStyle(
-                                  fontSize: 17,
+                                  fontSize: 16,
                                   fontWeight: FontWeight.w600,
                                   color: AppTheme.textPrimary,
                                 ),
@@ -191,7 +194,7 @@ class HomeScreen extends GetView<HomeController> {
                       ),
                     ),
                   ),
-                  const SizedBox(height: 12),
+                  const SizedBox(height: 6),
 
                   // Action Tiles
                   Padding(
@@ -247,7 +250,8 @@ class HomeScreen extends GetView<HomeController> {
                     ),
                   ),
 
-                  const SizedBox(height: 20),
+                  const SizedBox(height: 6),
+                  
                 ],
               ),
             ),
