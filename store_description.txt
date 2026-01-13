@@ -85,12 +85,12 @@ Dividend Reinvested ₹
 Dividend ₹
 Redemption
 Avg. Cost ₹
-Avg_value
+Avg_Value
 Abs. Rtn.(%)
 No. of days
 W.P(%)
 
-Statement ->
+> View Statement ->
 [Folio No.]
 [Fund name]
 Date

@@ -55,13 +55,16 @@ class HomeScreen extends GetView<HomeController> {
         appBar: AppBar(
           elevation: 0,
           backgroundColor: Colors.white,
-          title: Padding(
-            padding: EdgeInsets.only(top: 4.h),
-            child: Image.asset(
-              Images.logo,
-              height: 36.h,
-              width: 120.w,
-            ),
+          centerTitle: false,
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Image.asset(
+                Images.logo,
+                height: 40.h,
+                width: 100.w,
+              ),
+            ],
           ),
           actions: [
             Padding(
@@ -91,23 +94,10 @@ class HomeScreen extends GetView<HomeController> {
                   // Welcome Header
                   Container(
                     width: double.infinity,
-                    padding: const EdgeInsets.fromLTRB(20, 16, 20, 20),
+                    padding: const EdgeInsets.fromLTRB(20, 6, 20, 6),
                     color: Colors.white,
                     child: Row(
                       children: [
-                        Container(
-                          width: 48,
-                          height: 48,
-                          decoration: BoxDecoration(
-                            color: AppTheme.primaryColor.withOpacity(0.1),
-                            borderRadius: BorderRadius.circular(24),
-                          ),
-                          child: const Icon(
-                            Icons.person_rounded,
-                            color: AppTheme.primaryColor,
-                            size: 24,
-                          ),
-                        ),
                         const SizedBox(width: 14),
                         Expanded(
                           child: Column(
@@ -136,7 +126,7 @@ class HomeScreen extends GetView<HomeController> {
                     ),
                   ),
 
-                  const SizedBox(height: 12),
+                  const SizedBox(height: 6),
 
                   // Portfolio Overview Section
                   Padding(
@@ -150,7 +140,7 @@ class HomeScreen extends GetView<HomeController> {
                       ),
                     ),
                   ),
-                  const SizedBox(height: 12),
+                  const SizedBox(height: 6),
 
                   // Dashboard Grid
                   Padding(
@@ -187,7 +177,7 @@ class HomeScreen extends GetView<HomeController> {
                     ),
                   ),
 
-                  const SizedBox(height: 24),
+                  const SizedBox(height: 6),
 
                   // Quick Actions Section
                   Padding(
@@ -257,7 +247,7 @@ class HomeScreen extends GetView<HomeController> {
                     ),
                   ),
 
-                  const SizedBox(height: 32),
+                  const SizedBox(height: 20),
                 ],
               ),
             ),
@@ -286,7 +276,7 @@ class HomeScreen extends GetView<HomeController> {
       padding: const EdgeInsets.all(14),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        // mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Row(
             children: [
@@ -296,7 +286,7 @@ class HomeScreen extends GetView<HomeController> {
                   color: iconColor.withOpacity(0.1),
                   borderRadius: BorderRadius.circular(8),
                 ),
-                child: Icon(iconData, color: iconColor, size: 18),
+                child: Icon(iconData, color: iconColor, size: 14),
               ),
               const Spacer(),
               if (item.header == 'Total Gain/Loss' || item.header == 'Abs. Rtn. / XIRR')
@@ -307,11 +297,12 @@ class HomeScreen extends GetView<HomeController> {
                 ),
             ],
           ),
-          const Spacer(),
+          // const Spacer(),
+          const SizedBox(height: 8),
           Text(
             item.header,
             style: TextStyle(
-              fontSize: 11,
+              fontSize: 12,
               color: AppTheme.textSecondary,
               fontWeight: FontWeight.w500,
             ),
@@ -404,7 +395,7 @@ class HomeScreen extends GetView<HomeController> {
                 color: color.withOpacity(0.1),
                 borderRadius: BorderRadius.circular(10),
               ),
-              child: Icon(icon, color: color, size: 22),
+              child: Icon(icon, color: color, size: 16),
             ),
             const SizedBox(height: 10),
             Text(
@@ -638,6 +629,7 @@ class HomeScreen extends GetView<HomeController> {
     );
 
     const cellStyle = TextStyle(fontSize: 12, color: AppTheme.textPrimary);
+    const numericCellStyle = TextStyle(fontSize: 12, color: AppTheme.textPrimary);
 
     return DataTable(
       headingRowColor: WidgetStateProperty.all(AppTheme.primaryColor),
@@ -651,19 +643,19 @@ class HomeScreen extends GetView<HomeController> {
         DataColumn(label: Text('Folio Number', style: headerStyle)),
         DataColumn(label: Text('Ref.', style: headerStyle)),
         DataColumn(label: Text('Inv. Since', style: headerStyle)),
-        DataColumn(label: Text('Invested ₹', style: headerStyle)),
-        DataColumn(label: Text('Div. Reinvested ₹', style: headerStyle)),
-        DataColumn(label: Text('Dividend ₹', style: headerStyle)),
-        DataColumn(label: Text('Redemption ₹', style: headerStyle)),
-        DataColumn(label: Text('No. of Units', style: headerStyle)),
-        DataColumn(label: Text('Current NAV ₹', style: headerStyle)),
-        DataColumn(label: Text('Avg Value ₹', style: headerStyle)),
-        DataColumn(label: Text('Market Value ₹', style: headerStyle)),
-        DataColumn(label: Text('Gain/Loss ₹', style: headerStyle)),
-        DataColumn(label: Text('Abs. Rtn (%)', style: headerStyle)),
-        DataColumn(label: Text('No. of Days', style: headerStyle)),
-        DataColumn(label: Text('XIRR (%)', style: headerStyle)),
-        DataColumn(label: Text('W.P (%)', style: headerStyle)),
+        DataColumn(label: Align(alignment: Alignment.centerRight, child: Text('Invested ₹', style: headerStyle))),
+        DataColumn(label: Align(alignment: Alignment.centerRight, child: Text('Div. Reinvested ₹', style: headerStyle))),
+        DataColumn(label: Align(alignment: Alignment.centerRight, child: Text('Dividend ₹', style: headerStyle))),
+        DataColumn(label: Align(alignment: Alignment.centerRight, child: Text('Redemption ₹', style: headerStyle))),
+        DataColumn(label: Align(alignment: Alignment.centerRight, child: Text('No. of Units', style: headerStyle))),
+        DataColumn(label: Align(alignment: Alignment.centerRight, child: Text('Current NAV ₹', style: headerStyle))),
+        DataColumn(label: Align(alignment: Alignment.centerRight, child: Text('Avg Value ₹', style: headerStyle))),
+        DataColumn(label: Align(alignment: Alignment.centerRight, child: Text('Market Value ₹', style: headerStyle))),
+        DataColumn(label: Align(alignment: Alignment.centerRight, child: Text('Gain/Loss ₹', style: headerStyle))),
+        DataColumn(label: Align(alignment: Alignment.centerRight, child: Text('Abs. Rtn (%)', style: headerStyle))),
+        DataColumn(label: Align(alignment: Alignment.centerRight, child: Text('No. of Days', style: headerStyle))),
+        DataColumn(label: Align(alignment: Alignment.centerRight, child: Text('XIRR (%)', style: headerStyle))),
+        DataColumn(label: Align(alignment: Alignment.centerRight, child: Text('W.P (%)', style: headerStyle))),
       ],
       rows: data.map((row) {
         return DataRow(cells: [
@@ -672,40 +664,40 @@ class HomeScreen extends GetView<HomeController> {
           DataCell(Text(row['Folio Number'] ?? '', style: cellStyle)),
           DataCell(Text(row['ARN'] ?? '', style: cellStyle)),
           DataCell(Text(formatDate(row['Inv. Since'] ?? ''), style: cellStyle)),
-          DataCell(Text(formatValue(row['Investments & Switch Ins (INR.)'] ?? '0'), style: cellStyle)),
-          DataCell(Text(formatValue(row['Dividend Reinvest'] ?? '0'), style: cellStyle)),
-          DataCell(Text(formatValue(row['Dividend (INR.)'] ?? '0'), style: cellStyle)),
-          DataCell(Text(formatValue(row['Redemption'] ?? '0'), style: cellStyle)),
-          DataCell(Text(formatValue(row['No. of Units'] ?? '0'), style: cellStyle)),
-          DataCell(Text(formatValue(row['Current NAV (INR.)'] ?? '0'), style: cellStyle)),
-          DataCell(Text(formatValue(row['Avg. Value (INR.)'] ?? '0'), style: cellStyle)),
-          DataCell(Text(formatValue(row['Market Value (INR.)'] ?? '0'), style: cellStyle)),
-          DataCell(Text(
+          DataCell(Align(alignment: Alignment.centerRight, child: Text(formatValue(row['Investments & Switch Ins (INR.)'] ?? '0'), style: numericCellStyle))),
+          DataCell(Align(alignment: Alignment.centerRight, child: Text(formatValue(row['Dividend Reinvest'] ?? '0'), style: numericCellStyle))),
+          DataCell(Align(alignment: Alignment.centerRight, child: Text(formatValue(row['Dividend (INR.)'] ?? '0'), style: numericCellStyle))),
+          DataCell(Align(alignment: Alignment.centerRight, child: Text(formatValue(row['Redemption'] ?? '0'), style: numericCellStyle))),
+          DataCell(Align(alignment: Alignment.centerRight, child: Text(formatValue(row['No. of Units'] ?? '0'), style: numericCellStyle))),
+          DataCell(Align(alignment: Alignment.centerRight, child: Text(formatValue(row['Current NAV (INR.)'] ?? '0'), style: numericCellStyle))),
+          DataCell(Align(alignment: Alignment.centerRight, child: Text(formatValue(row['Avg. Value (INR.)'] ?? '0'), style: numericCellStyle))),
+          DataCell(Align(alignment: Alignment.centerRight, child: Text(formatValue(row['Market Value (INR.)'] ?? '0'), style: numericCellStyle))),
+          DataCell(Align(alignment: Alignment.centerRight, child: Text(
             formatGainLossValue(row['Gain/Loss (INR.)'] ?? '0'),
             style: TextStyle(
               fontWeight: FontWeight.w600,
               fontSize: 12,
               color: _getDynamicColor(row['Gain/Loss (INR.)']),
             ),
-          )),
-          DataCell(Text(
+          ))),
+          DataCell(Align(alignment: Alignment.centerRight, child: Text(
             formatPercentage(row['Abs. Ret(%)']),
             style: TextStyle(
               fontWeight: FontWeight.w600,
               fontSize: 12,
               color: _getDynamicColor(row['Abs. Ret(%)']),
             ),
-          )),
-          DataCell(Text(formatValue(row['No. of Days'] ?? '0'), style: cellStyle)),
-          DataCell(Text(
+          ))),
+          DataCell(Align(alignment: Alignment.centerRight, child: Text(formatValue(row['No. of Days'] ?? '0'), style: numericCellStyle))),
+          DataCell(Align(alignment: Alignment.centerRight, child: Text(
             formatPercentage(row['XIRR (%)']),
             style: TextStyle(
               fontWeight: FontWeight.w600,
               fontSize: 12,
               color: _getDynamicColor(row['XIRR (%)']),
             ),
-          )),
-          DataCell(Text(formatValue(row['W.P. (%)'] ?? '0'), style: cellStyle)),
+          ))),
+          DataCell(Align(alignment: Alignment.centerRight, child: Text(formatValue(row['W.P. (%)'] ?? '0'), style: numericCellStyle))),
         ]);
       }).toList(),
     );
@@ -764,13 +756,13 @@ String formatValue(String value) {
 class GridItem extends StatelessWidget {
   final String header;
   final String value;
-  final Color color;
+  // final Color color;
 
   const GridItem({
     super.key,
     required this.header,
     required this.value,
-    required this.color,
+    // required this.color,
   });
 
   @override

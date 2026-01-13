@@ -148,31 +148,31 @@ class HomeController extends GetxController {
         GridItem(
             header: 'Total Investment',
             value: '₹${_grandTotalList.first.investmentsSwitchIns}',
-            color: const Color(0XFFfd0100)),
+            ),
         GridItem(
             header: 'Total Valuation',
             value: '₹${_grandTotalList.first.marketValue}',
-            color: const Color(0XFFf76915)),
+            ),
         GridItem(
             header: 'Total Dividend Paid',
             value: '₹${_grandTotalList.first.dividend}',
-            color: const Color(0XFFcbbf0b)),
+            ),
         GridItem(
             header: 'Total Dividend Reinvested',
             value: '₹${_grandTotalList.first.dividendReinvest}',
-            color: const Color(0XFFa0d636)),
+            ),
         GridItem(
             header: 'Total Gain/Loss',
             value: formatGainLoss(_grandTotalList
                 .first.gainLoss), //'₹${_grandTotalList.first.gainLoss}',
-            color: const Color.fromARGB(255, 162, 46, 152)),
+            ),
         GridItem(
             header: 'Abs. Rtn. / XIRR',
             value:
                 '${formatPercentage(_grandTotalList.first.absRetPer)} / ${formatPercentage(_grandTotalList.first.xirr)}',
             //'${double.parse(_grandTotalList.first.absRetPer??'0').toStringAsFixed(2)} / ${double.parse(_grandTotalList.first.xirr??'0').toStringAsFixed(2)}',
             //'${_grandTotalList.first.absRetPer} / ${_grandTotalList.first.xirr}',
-            color: const Color(0XFF333ed4)),
+            ),
       ];
     }
   }
