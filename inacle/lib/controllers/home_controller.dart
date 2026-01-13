@@ -154,11 +154,11 @@ class HomeController extends GetxController {
             value: '₹${_grandTotalList.first.marketValue}',
             ),
         GridItem(
-            header: 'Total Dividend Paid',
+            header: 'Total Div. Paid',
             value: '₹${_grandTotalList.first.dividend}',
             ),
         GridItem(
-            header: 'Total Dividend Reinvested',
+            header: 'Total Div. Reinvested',
             value: '₹${_grandTotalList.first.dividendReinvest}',
             ),
         GridItem(
