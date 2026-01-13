@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
@@ -7,8 +8,9 @@ class ApiService extends GetxService {
   final String _baseUrl = 'https://api.inacle.co.in/index.php/';
   final Map<String, String> headers = {
     // 'Content-Type': 'application/json',
-    // 'Authorization': 'Bearer your_token', // replace 'your_token' with your actual token
-    // // Add more headers as needed
+    // 'Authorization': 'Bearer your_token',
+    'X-Platform': Platform.isIOS ? 'iOS' : 'Android',
+
   };
 
   Future<String> get(String endpoint) async {
