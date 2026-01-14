@@ -94,6 +94,17 @@ class HomeScreen extends GetView<HomeController> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  // IFA line
+                  Container(
+                    width: double.infinity,
+                    padding: const EdgeInsets.fromLTRB(1, 1, 1, 1),
+                    color: Colors.white,
+                    child: Image.asset(
+                      Images.ifa1,
+                      height: 55.h,
+                      // width: 100.w,
+                    ),
+                  ),
                   // Welcome Header
                   Container(
                     width: double.infinity,
@@ -103,17 +114,17 @@ class HomeScreen extends GetView<HomeController> {
                       children: [
                         const SizedBox(width: 14),
                         Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.baseline,
+                            textBaseline: TextBaseline.alphabetic,
                             children: [
                               Text(
-                                'Welcome,',
+                                'Welcome, ',
                                 style: TextStyle(
-                                  fontSize: 13,
+                                  fontSize: 16,
                                   color: AppTheme.textSecondary,
                                 ),
                               ),
-                              const SizedBox(height: 2),
                               Text(
                                 homeController.clientName,
                                 style: const TextStyle(
@@ -161,26 +172,42 @@ class HomeScreen extends GetView<HomeController> {
                         } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
                           return _buildEmptyState();
                         }
-                        return GridView.builder(
-                          shrinkWrap: true,
-                          physics: const NeverScrollableScrollPhysics(),
-                          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 2,
-                            childAspectRatio: 1.5,
-                            mainAxisSpacing: 10,
-                            crossAxisSpacing: 10,
-                          ),
-                          itemCount: snapshot.data!.length,
-                          itemBuilder: (context, index) {
-                            final item = snapshot.data![index];
-                            return _buildDashboardTile(item);
+                  
+                        return LayoutBuilder(
+                          builder: (context, constraints) {
+                            const crossAxisCount = 2;
+                            const spacing = 5.0;
+                  
+                            // Calculate item width based on available space
+                            final itemWidth =
+                                (constraints.maxWidth - (crossAxisCount - 1) * spacing) /
+                                    crossAxisCount;
+                  
+                            // Enforce a minimum height so content fits
+                            final itemHeight = 115.0;
+                            final aspectRatio = itemWidth / itemHeight;
+                  
+                            return GridView.builder(
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: crossAxisCount,
+                                childAspectRatio: aspectRatio,
+                                mainAxisSpacing: spacing,
+                                crossAxisSpacing: spacing,
+                              ),
+                              itemCount: snapshot.data!.length,
+                              itemBuilder: (context, index) {
+                                final item = snapshot.data![index];
+                                return _buildDashboardTile(item);
+                              },
+                            );
                           },
                         );
                       },
                     ),
                   ),
-
-                  const SizedBox(height: 6),
+                  // const SizedBox(height: 6),
 
                   // Quick Actions Section
                   Padding(
@@ -214,7 +241,7 @@ class HomeScreen extends GetView<HomeController> {
                             },
                           ),
                         ),
-                        const SizedBox(width: 10),
+                        const SizedBox(width: 5),
                         Expanded(
                           child: _buildActionTile(
                             'Portfolio Summary',
@@ -228,7 +255,7 @@ class HomeScreen extends GetView<HomeController> {
                             },
                           ),
                         ),
-                        const SizedBox(width: 10),
+                        const SizedBox(width: 5),
                         Expanded(
                           child: _buildActionTile(
                             'My Portal',
@@ -250,7 +277,7 @@ class HomeScreen extends GetView<HomeController> {
                     ),
                   ),
 
-                  const SizedBox(height: 6),
+                  const SizedBox(height: 15),
                   
                 ],
               ),

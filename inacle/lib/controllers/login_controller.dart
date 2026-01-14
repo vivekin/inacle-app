@@ -2,6 +2,7 @@
 
 import 'dart:developer';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:inacle_app/constants/app_constants.dart';
 import 'package:inacle_app/models/auth_model.dart';
@@ -49,6 +50,11 @@ class LoginController extends GetxController {
     update();
   }
 
+  void _dismissKeyboard() {
+    FocusManager.instance.primaryFocus?.unfocus();
+    SystemChannels.textInput.invokeMethod('TextInput.hide');
+  }
+
   void login() {
     if(panCardController.text.isEmpty || emailController.text.isEmpty){
       CustomSnackbar.showError( message: 'Please fill all the fields');
@@ -56,6 +62,7 @@ class LoginController extends GetxController {
     }
     // Add your login logic here
     log('PanCard: ${panCardController.text}, Password: ${mobileController.text} , mobile: ${mobileController.text}');
+    _dismissKeyboard();
     _isloading = true;
     update();
     UserRepository()

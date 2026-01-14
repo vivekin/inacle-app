@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:inacle_app/constants/app_constants.dart';
 import 'package:inacle_app/models/auth_model.dart';
@@ -29,6 +30,11 @@ class OTPController extends GetxController {
     update();
   }
 
+  void _dismissKeyboard() {
+    FocusManager.instance.primaryFocus?.unfocus();
+    SystemChannels.textInput.invokeMethod('TextInput.hide');
+  }
+
   onChanged(String value) {
     _currentText = value;
     update();
@@ -47,6 +53,7 @@ class OTPController extends GetxController {
 
         changeErrorStatus(true);
       } else {
+        _dismissKeyboard();
         _isloading = true;
         update();
         UserRepository().otpValidation(otp: _currentText).then((value) {

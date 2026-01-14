@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:inacle_app/common/fade_animation.dart';
@@ -25,15 +26,20 @@ class OTPScreen extends GetView<OTPController> {
             gradient: AppTheme.backgroundGradient,
           ),
           child: SafeArea(
-            child: Column(
-              children: [
-                Expanded(
-                  child: SingleChildScrollView(
-                    padding: const EdgeInsets.symmetric(horizontal: 24),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center, // ✅ Center children
-                      children: [
+            child: GestureDetector(
+              onTap: () {
+                FocusScope.of(context).unfocus();
+                SystemChannels.textInput.invokeMethod('TextInput.hide');
+              },
+              child: Column(
+                children: [
+                  Expanded(
+                    child: SingleChildScrollView(
+                      padding: const EdgeInsets.symmetric(horizontal: 24),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center, // ✅ Center children
+                        children: [
                         // Logo
                         FadeAnimation(
                           delay: 0.8,
@@ -208,6 +214,8 @@ class OTPScreen extends GetView<OTPController> {
                                       width: double.infinity,
                                       isLoading: otpController.isloading,
                                       onPressed: () {
+                                        FocusScope.of(context).unfocus();
+                                        SystemChannels.textInput.invokeMethod('TextInput.hide');
                                         otpController.otpValidation(context);
                                       },
                                     ),
@@ -242,6 +250,7 @@ class OTPScreen extends GetView<OTPController> {
                   ),
                 ),
               ],
+            ),
             ),
           ),
         );
