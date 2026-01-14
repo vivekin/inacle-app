@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
@@ -46,6 +47,12 @@ class HomeController extends GetxController {
   String _clientName = "";
   String get clientName => _clientName;
 
+  String _agentLogoBase64 = "";
+  String get agentLogoBase64 => _agentLogoBase64;
+
+  bool _isLogoLoading = false;
+  bool get isLogoLoading => _isLogoLoading;
+
   @override
   void onInit() async {
     super.onInit();
@@ -64,6 +71,7 @@ class HomeController extends GetxController {
     _dashboardFuture = fetchDashboardDetails();
     await fetchClienDetails();
     await fetchClienPortal();
+    await fetchAgentLogo();
     // _isLoading = false;
     // update();
   }
@@ -223,5 +231,36 @@ class HomeController extends GetxController {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.clear();
     Get.offAllNamed(AppRoutes.login);
+  }
+
+  fetchAgentLogo() async {
+    _isLogoLoading = true;
+    update();
+    try {
+      final dynamic value = await HomeRepository().fetchAgentLogo();
+      if (value != null && value['logo_base64'] != null && (value['logo_base64'] as String).isNotEmpty) {
+        String logoBase64 = value['logo_base64'];
+        // Validate base64 can be decoded
+        try {
+          base64Decode(logoBase64);
+          _agentLogoBase64 = logoBase64;
+          update();
+        } catch (decodeError) {
+          log('Error decoding base64: $decodeError');
+          _agentLogoBase64 = "";
+          update();
+        }
+      } else {
+        _agentLogoBase64 = "";
+        update();
+      }
+    } catch (e) {
+      log('Error fetching agent logo: $e');
+      _agentLogoBase64 = "";
+      update();
+    } finally {
+      _isLogoLoading = false;
+      update();
+    }
   }
 }

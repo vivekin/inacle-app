@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:developer';
 
 import 'package:auto_size_text/auto_size_text.dart';
@@ -94,17 +95,18 @@ class HomeScreen extends GetView<HomeController> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // IFA line
-                  Container(
-                    width: double.infinity,
-                    padding: const EdgeInsets.fromLTRB(1, 1, 1, 1),
-                    color: Colors.white,
-                    child: Image.asset(
-                      Images.ifa1,
-                      height: 55.h,
-                      // width: 100.w,
+                  // Agent Logo - Only render if successfully fetched from API
+                  if (controller.agentLogoBase64.isNotEmpty)
+                    Container(
+                      width: double.infinity,
+                      padding: const EdgeInsets.fromLTRB(1, 1, 1, 1),
+                      color: Colors.white,
+                      child: Image.memory(
+                        base64Decode(controller.agentLogoBase64),
+                        height: 55.h,
+                        fit: BoxFit.contain,
+                      ),
                     ),
-                  ),
                   // Welcome Header
                   Container(
                     width: double.infinity,

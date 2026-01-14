@@ -81,4 +81,14 @@ class HomeRepository {
       throw Exception('Failed to load user: $e');
     }
   }
+
+  Future<dynamic> fetchAgentLogo() async {
+    try {
+      final response = await _apiService.post('agentlogo',
+          body: {"unid": AppConstants.user.clientAppUnid ?? ''});
+      return jsonDecode(response);
+    } catch (e) {
+      throw Exception('Failed to load agent logo: $e');
+    }
+  }
 }
