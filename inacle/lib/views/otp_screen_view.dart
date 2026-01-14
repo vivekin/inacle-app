@@ -116,7 +116,7 @@ class OTPScreen extends GetView<OTPController> {
                                       child: PinCodeTextField(
                                         appContext: context,
                                         length: 4,
-                                        autoFocus: true,
+                                        autoFocus: false,
                                         obscureText: true,
                                         obscuringCharacter: '●',
                                         blinkWhenObscuring: true,
