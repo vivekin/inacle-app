@@ -97,6 +97,7 @@ class HomeScreen extends GetView<HomeController> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   // Agent Logo - Only render if successfully fetched from API
+                  // Aspect ratio [1080 x 155]
                   if (controller.agentLogoBase64.isNotEmpty)
                     Container(
                       width: double.infinity,
