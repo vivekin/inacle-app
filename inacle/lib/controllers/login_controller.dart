@@ -56,8 +56,8 @@ class LoginController extends GetxController {
   }
 
   void login() {
-    if(panCardController.text.isEmpty || emailController.text.isEmpty){
-      CustomSnackbar.showError( message: 'Please fill all the fields');
+    if (panCardController.text.isEmpty || emailController.text.isEmpty) {
+      CustomSnackbar.showError(message: 'Please fill all the fields');
       return;
     }
     // Add your login logic here

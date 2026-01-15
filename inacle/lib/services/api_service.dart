@@ -10,7 +10,6 @@ class ApiService extends GetxService {
     // 'Content-Type': 'application/json',
     // 'Authorization': 'Bearer your_token',
     'X-Platform': Platform.isIOS ? 'iOS' : 'Android',
-
   };
 
   Future<String> get(String endpoint) async {
@@ -23,22 +22,24 @@ class ApiService extends GetxService {
     }
   }
 
-  Future<String> post(String endpoint, {required Map<String, String> body}) async {
+  Future<String> post(String endpoint,
+      {required Map<String, String> body}) async {
     final url = Uri.parse(_baseUrl + endpoint);
     try {
       final response = await http.post(url, headers: headers, body: body);
-        log('request >>>>${response.request}');
-    log('statusCode >>>>${response.statusCode}');
-    log('headers >>>>${response.request?.headers.toString()}');
-    log('body >>>>$body');
-    log('response >>>>${response.body}');
+      log('request >>>>${response.request}');
+      log('statusCode >>>>${response.statusCode}');
+      log('headers >>>>${response.request?.headers.toString()}');
+      log('body >>>>$body');
+      log('response >>>>${response.body}');
       return ApiResponseHandler.handleResponse(response);
     } catch (e) {
       throw Exception('Failed to load data: $e');
     }
   }
 
-  Future<String> put(String endpoint, {required Map<String, String> body}) async {
+  Future<String> put(String endpoint,
+      {required Map<String, String> body}) async {
     final url = Uri.parse(_baseUrl + endpoint);
     try {
       final response = await http.put(url, headers: headers, body: body);
@@ -58,7 +59,8 @@ class ApiService extends GetxService {
     }
   }
 
-  Future<String> patch(String endpoint, {required Map<String, String> body}) async {
+  Future<String> patch(String endpoint,
+      {required Map<String, String> body}) async {
     final url = Uri.parse(_baseUrl + endpoint);
     try {
       final response = await http.patch(url, headers: headers, body: body);
@@ -75,7 +77,7 @@ class ApiResponseHandler {
       case 200:
         // If the server returns a 200 OK response,
         // then parse the JSON.
-         log('>>>>>>${response.body}');
+        log('>>>>>>${response.body}');
         return response.body;
       case 400:
         throw Exception('Bad Request');

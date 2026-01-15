@@ -46,7 +46,8 @@ class LoginPage extends GetView<LoginController> {
                         padding: const EdgeInsets.all(28),
                         decoration: BoxDecoration(
                           color: Colors.white,
-                          borderRadius: BorderRadius.circular(AppTheme.radiusLarge),
+                          borderRadius:
+                              BorderRadius.circular(AppTheme.radiusLarge),
                           boxShadow: AppTheme.elevatedShadow,
                         ),
                         child: Column(
@@ -78,7 +79,8 @@ class LoginPage extends GetView<LoginController> {
                               prefixIcon: Icons.credit_card_outlined,
                               maxLength: 10,
                               inputFormatters: [
-                                FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z0-9]')),
+                                FilteringTextInputFormatter.allow(
+                                    RegExp(r'[a-zA-Z0-9]')),
                                 UpperCaseTextFormatter(),
                               ],
                             ),
@@ -118,7 +120,8 @@ class LoginPage extends GetView<LoginController> {
                               isLoading: loginController.isloading,
                               onPressed: () {
                                 FocusScope.of(context).unfocus();
-                                SystemChannels.textInput.invokeMethod('TextInput.hide');
+                                SystemChannels.textInput
+                                    .invokeMethod('TextInput.hide');
                                 loginController.login();
                               },
                             ),

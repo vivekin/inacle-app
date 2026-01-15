@@ -3,16 +3,14 @@ class LoginResponse {
   final String? message;
   final dynamic clientAppUnid;
   final String? token;
-   String? emailID;
-  
+  String? emailID;
 
-  LoginResponse({
-    this.status,
-    this.message,
-    this.clientAppUnid,
-    this.token,
-    this.emailID
-  });
+  LoginResponse(
+      {this.status,
+      this.message,
+      this.clientAppUnid,
+      this.token,
+      this.emailID});
 
   factory LoginResponse.fromJson(Map<String, dynamic> json) {
     return LoginResponse(

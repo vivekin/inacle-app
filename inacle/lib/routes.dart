@@ -13,7 +13,6 @@ import 'package:inacle_app/views/splash_screen_view.dart';
 import 'package:inacle_app/views/reports_screen_view.dart';
 
 class AppRoutes {
-
   static const String initial = '/';
   static const String splash = '/splash';
   static const String login = '/login';
@@ -24,13 +23,26 @@ class AppRoutes {
   static const String holdings = '/holdings';
 
   static final routes = [
-    GetPage(name: splash, page: () => const SplashScreenView(), binding: SplashBinding()),
-    GetPage(name: login, page: () => const LoginPage(), binding: LoginBinding()),
+    GetPage(
+        name: splash,
+        page: () => const SplashScreenView(),
+        binding: SplashBinding()),
+    GetPage(
+        name: login, page: () => const LoginPage(), binding: LoginBinding()),
     GetPage(name: otp, page: () => const OTPScreen(), binding: OTPBinding()),
     GetPage(name: home, page: () => const HomeScreen(), binding: HomeBinding()),
-    GetPage(name: stockInfo, page: () => const StockSummaryScreen(), binding: StockInfoBinding()),
-    GetPage(name: report, page: () => const ReportScreen(), binding: ReportScreenBinding()),
-    GetPage(name: holdings, page: () => const StockHoldingsScreen(), binding: ReportScreenBinding()),
+    GetPage(
+        name: stockInfo,
+        page: () => const StockSummaryScreen(),
+        binding: StockInfoBinding()),
+    GetPage(
+        name: report,
+        page: () => const ReportScreen(),
+        binding: ReportScreenBinding()),
+    GetPage(
+        name: holdings,
+        page: () => const StockHoldingsScreen(),
+        binding: ReportScreenBinding()),
     // GetPage(name: '/home', page: () => HomeView()),
   ];
 }

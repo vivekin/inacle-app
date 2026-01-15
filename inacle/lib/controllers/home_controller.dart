@@ -154,33 +154,33 @@ class HomeController extends GetxController {
       update();
       return [
         GridItem(
-            header: 'Total Investment',
-            value: '₹${_grandTotalList.first.investmentsSwitchIns}',
-            ),
+          header: 'Total Investment',
+          value: '₹${_grandTotalList.first.investmentsSwitchIns}',
+        ),
         GridItem(
-            header: 'Total Valuation',
-            value: '₹${_grandTotalList.first.marketValue}',
-            ),
+          header: 'Total Valuation',
+          value: '₹${_grandTotalList.first.marketValue}',
+        ),
         GridItem(
-            header: 'Total Div. Paid',
-            value: '₹${_grandTotalList.first.dividend}',
-            ),
+          header: 'Total Div. Paid',
+          value: '₹${_grandTotalList.first.dividend}',
+        ),
         GridItem(
-            header: 'Total Div. Reinvested',
-            value: '₹${_grandTotalList.first.dividendReinvest}',
-            ),
+          header: 'Total Div. Reinvested',
+          value: '₹${_grandTotalList.first.dividendReinvest}',
+        ),
         GridItem(
-            header: 'Total Gain/Loss',
-            value: formatGainLoss(_grandTotalList
-                .first.gainLoss), //'₹${_grandTotalList.first.gainLoss}',
-            ),
+          header: 'Total Gain/Loss',
+          value: formatGainLoss(_grandTotalList
+              .first.gainLoss), //'₹${_grandTotalList.first.gainLoss}',
+        ),
         GridItem(
-            header: 'Abs. Rtn. / XIRR',
-            value:
-                '${formatPercentage(_grandTotalList.first.absRetPer)} / ${formatPercentage(_grandTotalList.first.xirr)}',
-            //'${double.parse(_grandTotalList.first.absRetPer??'0').toStringAsFixed(2)} / ${double.parse(_grandTotalList.first.xirr??'0').toStringAsFixed(2)}',
-            //'${_grandTotalList.first.absRetPer} / ${_grandTotalList.first.xirr}',
-            ),
+          header: 'Abs. Rtn. / XIRR',
+          value:
+              '${formatPercentage(_grandTotalList.first.absRetPer)} / ${formatPercentage(_grandTotalList.first.xirr)}',
+          //'${double.parse(_grandTotalList.first.absRetPer??'0').toStringAsFixed(2)} / ${double.parse(_grandTotalList.first.xirr??'0').toStringAsFixed(2)}',
+          //'${_grandTotalList.first.absRetPer} / ${_grandTotalList.first.xirr}',
+        ),
       ];
     }
   }
@@ -238,7 +238,9 @@ class HomeController extends GetxController {
     update();
     try {
       final dynamic value = await HomeRepository().fetchAgentLogo();
-      if (value != null && value['logo_base64'] != null && (value['logo_base64'] as String).isNotEmpty) {
+      if (value != null &&
+          value['logo_base64'] != null &&
+          (value['logo_base64'] as String).isNotEmpty) {
         String logoBase64 = value['logo_base64'];
         // Validate base64 can be decoded
         try {

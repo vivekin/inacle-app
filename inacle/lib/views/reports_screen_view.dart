@@ -153,7 +153,8 @@ class StockSummaryScreen extends GetView<StockInfoController> {
                                                   const DataCell(
                                                       Text('Invested ₹')),
                                                   DataCell(Align(
-                                                    alignment: Alignment.centerRight,
+                                                    alignment:
+                                                        Alignment.centerRight,
                                                     child: Text(
                                                       consolidate
                                                               .investmentsSwitchIns ??
@@ -169,9 +170,11 @@ class StockSummaryScreen extends GetView<StockInfoController> {
                                                   const DataCell(
                                                       Text('No. of Units')),
                                                   DataCell(Align(
-                                                    alignment: Alignment.centerRight,
+                                                    alignment:
+                                                        Alignment.centerRight,
                                                     child: Text(
-                                                      consolidate.noOfUnits ?? '',
+                                                      consolidate.noOfUnits ??
+                                                          '',
                                                       style: const TextStyle(
                                                           fontFamily: 'Roboto'),
                                                     ),
@@ -183,7 +186,8 @@ class StockSummaryScreen extends GetView<StockInfoController> {
                                                   const DataCell(
                                                       Text('Market Value ₹')),
                                                   DataCell(Align(
-                                                    alignment: Alignment.centerRight,
+                                                    alignment:
+                                                        Alignment.centerRight,
                                                     child: Text(
                                                       consolidate.marketValue ??
                                                           '',
@@ -197,7 +201,8 @@ class StockSummaryScreen extends GetView<StockInfoController> {
                                                 cells: <DataCell>[
                                                   const DataCell(Text('NAV ₹')),
                                                   DataCell(Align(
-                                                    alignment: Alignment.centerRight,
+                                                    alignment:
+                                                        Alignment.centerRight,
                                                     child: Text(
                                                       consolidate.currentNAV ??
                                                           '',
@@ -212,7 +217,8 @@ class StockSummaryScreen extends GetView<StockInfoController> {
                                                   const DataCell(
                                                       Text('Gain/Loss')),
                                                   DataCell(Align(
-                                                    alignment: Alignment.centerRight,
+                                                    alignment:
+                                                        Alignment.centerRight,
                                                     child: Text(
                                                       formatGainLoss(
                                                           consolidate.gainLoss),
@@ -221,7 +227,8 @@ class StockSummaryScreen extends GetView<StockInfoController> {
                                                         fontWeight:
                                                             FontWeight.bold,
                                                         color: _getDynamicColor(
-                                                            consolidate.gainLoss),
+                                                            consolidate
+                                                                .gainLoss),
                                                       ),
                                                     ),
                                                   )),
@@ -232,7 +239,8 @@ class StockSummaryScreen extends GetView<StockInfoController> {
                                                   const DataCell(
                                                       Text('XIRR(%)')),
                                                   DataCell(Align(
-                                                    alignment: Alignment.centerRight,
+                                                    alignment:
+                                                        Alignment.centerRight,
                                                     child: Text(
                                                       formatPercentage(
                                                           consolidate.xirr),
@@ -282,7 +290,7 @@ class StockSummaryScreen extends GetView<StockInfoController> {
                                                       style: TextStyle(
                                                         color: Colors.blue,
                                                         fontWeight:
-                                                          FontWeight.bold,
+                                                            FontWeight.bold,
                                                         // decoration:
                                                         //     TextDecoration
                                                         //         .underline,
@@ -366,8 +374,9 @@ class StockSummaryScreen extends GetView<StockInfoController> {
       'curr_nav',
       'curr_val',
     ];
-    
-    return numericColumns.any((col) => fieldName.toLowerCase().contains(col.toLowerCase()));
+
+    return numericColumns
+        .any((col) => fieldName.toLowerCase().contains(col.toLowerCase()));
   }
 
   void showMyDialog(
@@ -433,44 +442,47 @@ class StockSummaryScreen extends GetView<StockInfoController> {
                                     columns: snapshot.data![0].keys.map((key) {
                                       bool isNumeric = _isNumericColumn(key);
                                       return DataColumn(
-                                        label: isNumeric 
-                                          ? Align(
-                                              alignment: Alignment.centerRight,
-                                              child: Text(
+                                        label: isNumeric
+                                            ? Align(
+                                                alignment:
+                                                    Alignment.centerRight,
+                                                child: Text(
+                                                  convertFieldName(key),
+                                                  style: const TextStyle(
+                                                      fontFamily: 'Roboto',
+                                                      color: Colors.white),
+                                                ),
+                                              )
+                                            : Text(
                                                 convertFieldName(key),
                                                 style: const TextStyle(
                                                     fontFamily: 'Roboto',
                                                     color: Colors.white),
                                               ),
-                                            )
-                                          : Text(
-                                              convertFieldName(key),
-                                              style: const TextStyle(
-                                                  fontFamily: 'Roboto',
-                                                  color: Colors.white),
-                                            ),
                                       );
                                     }).toList(),
                                     rows: snapshot.data!.map((row) {
-                                      List<DataCell> cells = row.entries
-                                          .map((entry) {
-                                            bool isNumeric = _isNumericColumn(entry.key);
-                                            return DataCell(
-                                              isNumeric
-                                                ? Align(
-                                                    alignment: Alignment.centerRight,
-                                                    child: Text(entry.value.toString(),
-                                                        style: const TextStyle(
-                                                          fontFamily: 'Roboto',
-                                                        )),
-                                                  )
-                                                : Text(entry.value.toString(),
-                                                    style: const TextStyle(
-                                                      fontFamily: 'Roboto',
-                                                    )),
-                                            );
-                                          })
-                                          .toList();
+                                      List<DataCell> cells =
+                                          row.entries.map((entry) {
+                                        bool isNumeric =
+                                            _isNumericColumn(entry.key);
+                                        return DataCell(
+                                          isNumeric
+                                              ? Align(
+                                                  alignment:
+                                                      Alignment.centerRight,
+                                                  child: Text(
+                                                      entry.value.toString(),
+                                                      style: const TextStyle(
+                                                        fontFamily: 'Roboto',
+                                                      )),
+                                                )
+                                              : Text(entry.value.toString(),
+                                                  style: const TextStyle(
+                                                    fontFamily: 'Roboto',
+                                                  )),
+                                        );
+                                      }).toList();
                                       return DataRow(cells: cells);
                                     }).toList(),
                                   ),
@@ -653,29 +665,47 @@ class StockSummaryScreen extends GetView<StockInfoController> {
                                                           color:
                                                               Colors.white))),
                                               DataColumn(
-                                                  label: Align(alignment: Alignment.centerRight, child: Text('Amount ₹',
-                                                      style: TextStyle(
-                                                          fontFamily: 'Roboto',
-                                                          color:
-                                                              Colors.white)))),
+                                                  label: Align(
+                                                      alignment:
+                                                          Alignment.centerRight,
+                                                      child: Text('Amount ₹',
+                                                          style: TextStyle(
+                                                              fontFamily:
+                                                                  'Roboto',
+                                                              color: Colors
+                                                                  .white)))),
                                               DataColumn(
-                                                  label: Align(alignment: Alignment.centerRight, child: Text('NAV ₹',
-                                                      style: TextStyle(
-                                                          fontFamily: 'Roboto',
-                                                          color:
-                                                              Colors.white)))),
+                                                  label: Align(
+                                                      alignment:
+                                                          Alignment.centerRight,
+                                                      child: Text('NAV ₹',
+                                                          style: TextStyle(
+                                                              fontFamily:
+                                                                  'Roboto',
+                                                              color: Colors
+                                                                  .white)))),
                                               DataColumn(
-                                                  label: Align(alignment: Alignment.centerRight, child: Text('Number of Units',
-                                                      style: TextStyle(
-                                                          fontFamily: 'Roboto',
-                                                          color:
-                                                              Colors.white)))),
+                                                  label: Align(
+                                                      alignment:
+                                                          Alignment.centerRight,
+                                                      child: Text(
+                                                          'Number of Units',
+                                                          style: TextStyle(
+                                                              fontFamily:
+                                                                  'Roboto',
+                                                              color: Colors
+                                                                  .white)))),
                                               DataColumn(
-                                                  label: Align(alignment: Alignment.centerRight, child: Text('Balance Units',
-                                                      style: TextStyle(
-                                                          fontFamily: 'Roboto',
-                                                          color:
-                                                              Colors.white)))),
+                                                  label: Align(
+                                                      alignment:
+                                                          Alignment.centerRight,
+                                                      child: Text(
+                                                          'Balance Units',
+                                                          style: TextStyle(
+                                                              fontFamily:
+                                                                  'Roboto',
+                                                              color: Colors
+                                                                  .white)))),
                                             ],
                                             rows: data.map((row) {
                                               return DataRow(cells: [
@@ -697,23 +727,35 @@ class StockSummaryScreen extends GetView<StockInfoController> {
                                                         style: const TextStyle(
                                                           fontFamily: 'Roboto',
                                                         ))),
-                                                DataCell(
-                                                    Align(alignment: Alignment.centerRight, child: Text(row['amount'] ?? '',
+                                                DataCell(Align(
+                                                    alignment:
+                                                        Alignment.centerRight,
+                                                    child: Text(
+                                                        row['amount'] ?? '',
                                                         style: const TextStyle(
                                                           fontFamily: 'Roboto',
                                                         )))),
-                                                DataCell(
-                                                    Align(alignment: Alignment.centerRight, child: Text(row['purprice'] ?? '',
+                                                DataCell(Align(
+                                                    alignment:
+                                                        Alignment.centerRight,
+                                                    child: Text(
+                                                        row['purprice'] ?? '',
                                                         style: const TextStyle(
                                                           fontFamily: 'Roboto',
                                                         )))),
-                                                DataCell(
-                                                    Align(alignment: Alignment.centerRight, child: Text(row['units'] ?? '',
+                                                DataCell(Align(
+                                                    alignment:
+                                                        Alignment.centerRight,
+                                                    child: Text(
+                                                        row['units'] ?? '',
                                                         style: const TextStyle(
                                                           fontFamily: 'Roboto',
                                                         )))),
-                                                DataCell(
-                                                    Align(alignment: Alignment.centerRight, child: Text(row['bal_units'] ?? '',
+                                                DataCell(Align(
+                                                    alignment:
+                                                        Alignment.centerRight,
+                                                    child: Text(
+                                                        row['bal_units'] ?? '',
                                                         style: const TextStyle(
                                                           fontFamily: 'Roboto',
                                                         )))),
@@ -1019,12 +1061,15 @@ class StockHoldingsScreen extends GetView<StockInfoController> {
                                             rows: <DataRow>[
                                               DataRow(
                                                 cells: <DataCell>[
-                                                  const DataCell(Text('Invested ₹',
-                                                      style: TextStyle(
-                                                        fontFamily: 'Roboto',
-                                                      ))),
+                                                  const DataCell(
+                                                      Text('Invested ₹',
+                                                          style: TextStyle(
+                                                            fontFamily:
+                                                                'Roboto',
+                                                          ))),
                                                   DataCell(Align(
-                                                    alignment: Alignment.centerRight,
+                                                    alignment:
+                                                        Alignment.centerRight,
                                                     child: Text(
                                                         consolidate
                                                                 .investmentsSwitchIns ??
@@ -1044,7 +1089,8 @@ class StockHoldingsScreen extends GetView<StockInfoController> {
                                                                 'Roboto',
                                                           ))),
                                                   DataCell(Align(
-                                                    alignment: Alignment.centerRight,
+                                                    alignment:
+                                                        Alignment.centerRight,
                                                     child: Text(
                                                         consolidate.noOfUnits ??
                                                             '',
@@ -1063,9 +1109,11 @@ class StockHoldingsScreen extends GetView<StockInfoController> {
                                                                 'Roboto',
                                                           ))),
                                                   DataCell(Align(
-                                                    alignment: Alignment.centerRight,
+                                                    alignment:
+                                                        Alignment.centerRight,
                                                     child: Text(
-                                                        consolidate.marketValue ??
+                                                        consolidate
+                                                                .marketValue ??
                                                             '',
                                                         style: const TextStyle(
                                                           fontFamily: 'Roboto',
@@ -1080,9 +1128,11 @@ class StockHoldingsScreen extends GetView<StockInfoController> {
                                                         fontFamily: 'Roboto',
                                                       ))),
                                                   DataCell(Align(
-                                                    alignment: Alignment.centerRight,
+                                                    alignment:
+                                                        Alignment.centerRight,
                                                     child: Text(
-                                                        consolidate.currentNav ??
+                                                        consolidate
+                                                                .currentNav ??
                                                             '',
                                                         style: const TextStyle(
                                                           fontFamily: 'Roboto',
@@ -1099,7 +1149,8 @@ class StockHoldingsScreen extends GetView<StockInfoController> {
                                                                 'Roboto',
                                                           ))),
                                                   DataCell(Align(
-                                                    alignment: Alignment.centerRight,
+                                                    alignment:
+                                                        Alignment.centerRight,
                                                     child: Text(
                                                         consolidate.gainLoss ??
                                                             '',
@@ -1116,7 +1167,8 @@ class StockHoldingsScreen extends GetView<StockInfoController> {
                                                         fontFamily: 'Roboto',
                                                       ))),
                                                   DataCell(Align(
-                                                    alignment: Alignment.centerRight,
+                                                    alignment:
+                                                        Alignment.centerRight,
                                                     child: Text(
                                                         consolidate.xirr ?? '',
                                                         style: const TextStyle(
@@ -1194,40 +1246,39 @@ class StockHoldingsScreen extends GetView<StockInfoController> {
                           child: SingleChildScrollView(
                             scrollDirection: Axis.vertical,
                             child: DataTable(
-                              columns: snapshot.data![0].keys
-                                  .map((key) {
-                                    bool isNumeric = _isNumericColumn(key);
-                                    return DataColumn(
-                                      label: isNumeric 
-                                        ? Align(
-                                            alignment: Alignment.centerRight,
-                                            child: Text(convertFieldName(key)),
-                                          )
-                                        : Text(convertFieldName(key)),
-                                    );
-                                  })
-                                  .toList(),
+                              columns: snapshot.data![0].keys.map((key) {
+                                bool isNumeric = _isNumericColumn(key);
+                                return DataColumn(
+                                  label: isNumeric
+                                      ? Align(
+                                          alignment: Alignment.centerRight,
+                                          child: Text(convertFieldName(key)),
+                                        )
+                                      : Text(convertFieldName(key)),
+                                );
+                              }).toList(),
                               rows: snapshot.data!
                                   .map((row) => DataRow(
-                                        cells: row.entries
-                                            .map((entry) {
-                                              bool isNumeric = _isNumericColumn(entry.key);
-                                              return DataCell(
-                                                isNumeric
-                                                  ? Align(
-                                                      alignment: Alignment.centerRight,
-                                                      child: Text(entry.value.toString(),
-                                                          style: const TextStyle(
-                                                            fontFamily: 'Roboto',
-                                                          )),
-                                                    )
-                                                  : Text(entry.value.toString(),
-                                                      style: const TextStyle(
-                                                        fontFamily: 'Roboto',
-                                                      )),
-                                              );
-                                            })
-                                            .toList(),
+                                        cells: row.entries.map((entry) {
+                                          bool isNumeric =
+                                              _isNumericColumn(entry.key);
+                                          return DataCell(
+                                            isNumeric
+                                                ? Align(
+                                                    alignment:
+                                                        Alignment.centerRight,
+                                                    child: Text(
+                                                        entry.value.toString(),
+                                                        style: const TextStyle(
+                                                          fontFamily: 'Roboto',
+                                                        )),
+                                                  )
+                                                : Text(entry.value.toString(),
+                                                    style: const TextStyle(
+                                                      fontFamily: 'Roboto',
+                                                    )),
+                                          );
+                                        }).toList(),
                                       ))
                                   .toList(),
                             ),
@@ -1277,8 +1328,9 @@ class StockHoldingsScreen extends GetView<StockInfoController> {
       'curr_nav',
       'curr_val',
     ];
-    
-    return numericColumns.any((col) => fieldName.toLowerCase().contains(col.toLowerCase()));
+
+    return numericColumns
+        .any((col) => fieldName.toLowerCase().contains(col.toLowerCase()));
   }
 
   String convertFieldName(String fieldName) {

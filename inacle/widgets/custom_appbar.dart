@@ -4,8 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:inacle_app/constants/images.dart';
 
-
-
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final bool showImageTitle;
   final bool showBackButton;
@@ -17,11 +15,11 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   const CustomAppBar({
     super.key,
     required this.showImageTitle,
-     this.showBackButton = true, 
+    this.showBackButton = true,
     required this.textTitle,
     this.onBackButtonPressed,
     this.onActionButtonPressed,
-     this.icon = Icons.settings,
+    this.icon = Icons.settings,
   });
 
   @override
@@ -31,10 +29,12 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     return AppBar(
       backgroundColor: Color(0xFF1156A2),
-      leading: showBackButton &&Navigator.canPop(context)
+      leading: showBackButton && Navigator.canPop(context)
           ? IconButton(
-              icon: Icon(Icons.arrow_back_ios, color: Colors.white, size: 20.sp),
-              onPressed: onBackButtonPressed ?? () => Navigator.of(context).pop(),
+              icon:
+                  Icon(Icons.arrow_back_ios, color: Colors.white, size: 20.sp),
+              onPressed:
+                  onBackButtonPressed ?? () => Navigator.of(context).pop(),
             )
           : null,
       title: showImageTitle
@@ -57,12 +57,15 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
               ),
               textAlign: TextAlign.left,
             ),
-      actions: onActionButtonPressed != null ? [ // Check if the function is provided
-        IconButton(
-          icon: Icon(icon, color: Colors.white, size: 20.sp),
-          onPressed: onActionButtonPressed,
-        ),
-      ] : null, // If the function is not provided, don't display the button
+      actions: onActionButtonPressed != null
+          ? [
+              // Check if the function is provided
+              IconButton(
+                icon: Icon(icon, color: Colors.white, size: 20.sp),
+                onPressed: onActionButtonPressed,
+              ),
+            ]
+          : null, // If the function is not provided, don't display the button
     );
   }
 }

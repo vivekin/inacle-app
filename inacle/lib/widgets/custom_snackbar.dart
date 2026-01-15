@@ -17,10 +17,11 @@ class CustomSnackbar {
     );
   }
 
-  static void showError({String message = 'Something went wrong',String title = 'Error'}) {
+  static void showError(
+      {String message = 'Something went wrong', String title = 'Error'}) {
     Get.snackbar(
       title, // title
-      
+
       message, // message
       icon: const Icon(Icons.error, color: Colors.white),
       shouldIconPulse: false,
