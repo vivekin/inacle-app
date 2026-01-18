@@ -54,6 +54,7 @@ class HomeScreen extends GetView<HomeController> {
       child: Scaffold(
         backgroundColor: const Color(0xFFF5F5F5),
         appBar: AppBar(
+          toolbarHeight: controller.agentLogoBase64.isNotEmpty ? 42 : 56,
           elevation: 0,
           backgroundColor: Colors.white,
           centerTitle: false,
@@ -64,7 +65,7 @@ class HomeScreen extends GetView<HomeController> {
                 padding: EdgeInsets.only(left: 15.w),
                 child: Image.asset(
                   Images.logo,
-                  height: 40.h,
+                  height: 38.h,
                   width: 100.w,
                 ),
               ),
@@ -105,7 +106,7 @@ class HomeScreen extends GetView<HomeController> {
                       color: Colors.white,
                       child: Image.memory(
                         base64Decode(controller.agentLogoBase64),
-                        height: 55.h,
+                        height: 60.h,
                         fit: BoxFit.contain,
                       ),
                     ),
