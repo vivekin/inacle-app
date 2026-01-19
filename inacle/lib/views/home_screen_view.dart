@@ -53,34 +53,38 @@ class HomeScreen extends GetView<HomeController> {
       },
       child: Scaffold(
         backgroundColor: const Color(0xFFF5F5F5),
-        appBar: AppBar(
-          toolbarHeight: controller.agentLogoBase64.isNotEmpty ? 42 : 56,
-          elevation: 0,
-          backgroundColor: Colors.white,
-          centerTitle: false,
-          title: Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Padding(
-                padding: EdgeInsets.only(left: 15.w),
-                child: Image.asset(
-                  Images.logo,
-                  height: 38.h,
-                  width: 100.w,
+        appBar: GetBuilder<HomeController>(
+          builder: (homeController) {
+            return AppBar(
+              toolbarHeight: homeController.agentLogoBase64.isNotEmpty ? 42 : 56,
+              elevation: 0,
+              backgroundColor: Colors.white,
+              centerTitle: false,
+              title: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: EdgeInsets.only(left: 15.w),
+                    child: Image.asset(
+                      Images.logo,
+                      height: 38.h,
+                      width: 100.w,
+                    ),
+                  ),
+                ],
+              ),
+              actions: [
+                Padding(
+                  padding: const EdgeInsets.only(right: 12),
+                  child: IconButton(
+                    icon: const Icon(Icons.logout_rounded,
+                        color: AppTheme.textSecondary, size: 22),
+                    onPressed: () => _showLogoutDialog(context),
+                  ),
                 ),
-              ),
-            ],
-          ),
-          actions: [
-            Padding(
-              padding: const EdgeInsets.only(right: 12),
-              child: IconButton(
-                icon: const Icon(Icons.logout_rounded,
-                    color: AppTheme.textSecondary, size: 22),
-                onPressed: () => _showLogoutDialog(context),
-              ),
-            ),
-          ],
+              ],
+            );
+          },
         ),
         body: GetBuilder<HomeController>(builder: (homeController) {
           if (homeController.isLoading) {
