@@ -14,3 +14,8 @@ flutter build appbundle --release
 
 flutter devices
 flutter run
+
+https://docs.flutter.dev/install/manual
+https://developer.android.com/studio
+Android SDK Command-line Tools
+flutter doctor --android-licenses
