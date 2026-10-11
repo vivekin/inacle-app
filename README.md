@@ -19,6 +19,7 @@ Create inacle/android/key.properties file<br>
 flutter --version<br>
 flutter config --android-sdk "C:\Users\Vivek.P\AppData\Local\Android\Sdk"
 flutter doctor --android-licenses
+start ms-settings:developers
 flutter doctor --verbose<br>
 flutter clean<br> 
 flutter pub get<br>
