@@ -17,6 +17,8 @@ Create inacle/android/key.properties file<br>
 `storeFile=/path/to/your/keystore.jks`<br>
 
 flutter --version<br>
+flutter config --android-sdk "C:\Users\Vivek.P\AppData\Local\Android\Sdk"
+flutter doctor --android-licenses
 flutter doctor --verbose<br>
 flutter clean<br> 
 flutter pub get<br>
