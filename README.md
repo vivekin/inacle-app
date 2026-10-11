@@ -20,6 +20,7 @@ flutter --version<br>
 flutter config --android-sdk "C:\Users\Vivek.P\AppData\Local\Android\Sdk"
 flutter doctor --android-licenses
 flutter doctor --verbose<br>
+start ms-settings:developers
 flutter clean<br> 
 flutter pub get<br>
 
