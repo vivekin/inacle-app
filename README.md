@@ -16,11 +16,14 @@ Create inacle/android/key.properties file<br>
 `keyAlias=your_key_alias`<br>
 `storeFile=/path/to/your/keystore.jks`<br>
 
+
+Enable Android SDK Command-line Tools in android studio
+
 flutter --version<br>
 flutter config --android-sdk "C:\Users\Vivek.P\AppData\Local\Android\Sdk"
 flutter doctor --android-licenses
-flutter doctor --verbose<br>
 start ms-settings:developers
+flutter doctor --verbose<br>
 flutter clean<br> 
 flutter pub get<br>
 
