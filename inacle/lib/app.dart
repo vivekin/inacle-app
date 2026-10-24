@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
         designSize: const Size(393, 852),
         builder: (context, child) {
           return GetMaterialApp(
-            title: 'Flutter Demo',
+            title: 'Inacle Client',
             // theme: AppTheme.lightTheme, // Use light theme
             // darkTheme: AppTheme.darkTheme, // Use dark theme when system dark mode is enabled
             initialRoute: AppRoutes
