@@ -16,8 +16,7 @@ class MyApp extends StatelessWidget {
             title: 'Inacle Client',
             // theme: AppTheme.lightTheme, // Use light theme
             // darkTheme: AppTheme.darkTheme, // Use dark theme when system dark mode is enabled
-            initialRoute: AppRoutes
-                .splash, // This is the route that the app will start on
+            initialRoute: AppRoutes.splash, // This is the route that the app will start on
             getPages: AppRoutes.routes, // Defined in routes.dart
           );
         });
